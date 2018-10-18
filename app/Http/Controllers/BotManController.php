@@ -29,7 +29,8 @@ class BotManController extends Controller
 
     public function take(BotMan $bot, $name, $time)
     {
-
+        $bot->reply($name);
+        $bot->reply($time);
     }
 
     /**
