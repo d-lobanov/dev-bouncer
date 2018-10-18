@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use BotMan\BotMan\BotMan;
-use Illuminate\Http\Request;
 use App\Conversations\ExampleConversation;
-use Illuminate\Http\Response;
+use BotMan\BotMan\BotMan;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 class BotManController extends Controller
 {
@@ -20,7 +20,7 @@ class BotManController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function tinker()
     {
@@ -33,7 +33,6 @@ class BotManController extends Controller
     }
 
     /**
-     * Loaded through routes/botman.php
      * @param  BotMan $bot
      */
     public function startConversation(BotMan $bot)
