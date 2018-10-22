@@ -12,9 +12,10 @@ class BotManController extends Controller
 {
     public function handle(): void
     {
-        $botman = app('botman');
+        /** @var BotMan $bot */
+        $bot = app('botman');
 
-        $botman->listen();
+        $bot->listen();
     }
 
     /**

@@ -59,12 +59,15 @@ class UserIntervalConverterTest extends TestCase
         $now = now();
         Carbon::setTestNow($now->copy());
 
-        $expected = $now->copy()->addDays(2)->addHours(2);
+        $expected = $now->copy()->addDays(2)->addHours(2)->timestamp;
         $this->assertEquals($expected, $service->convert('2d 2h'));
         $this->assertEquals($expected, $service->convert('2h 2d'));
 
-        $expected = $now->copy()->addDays(8)->addHours(23);
+        $expected = $now->copy()->addDays(8)->addHours(23)->timestamp;
         $this->assertEquals($expected, $service->convert('8d 23h'));
+
+        $expected = $now->copy()->addDays(1)->timestamp;
+        $this->assertEquals($expected, $service->convert('1d'));
 
         Carbon::setTestNow();
     }

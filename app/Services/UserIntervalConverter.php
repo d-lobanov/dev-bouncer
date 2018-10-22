@@ -9,11 +9,14 @@ class UserIntervalConverter
     const DAYS_REGEX = '/([1-9][0-9]*)\s?(d|D)/';
     const HOURS_REGEX = '/([1-9][0-9]*)\s?(h|H)/';
 
+    const MINUTES_IN_HOUR = 60;
+    const MINUTES_IN_DAY = 24 * 60;
+
     /**
      * @param string $userInput
-     * @return Carbon|null
+     * @return int|null
      */
-    public static function convert(string $userInput): ?Carbon
+    public static function convert(string $userInput): ?int
     {
         $days = self::parseDays($userInput);
         $hours = self::parseHours($userInput);
@@ -26,7 +29,7 @@ class UserIntervalConverter
             return null;
         }
 
-        return Carbon::now()->addDays($days)->addHours($hours);
+        return Carbon::now()->addDays($days ?? 0)->addHours($hours ?? 0)->timestamp;
     }
 
     /**

@@ -41,7 +41,7 @@ class Dev extends Model
      */
     public static function allFree()
     {
-        return Dev::whereDate('expired_at', '<', now())
+        return Dev::whereTime('expired_at', '<', now())
             ->orWhereNull('expired_at')
             ->get();
     }

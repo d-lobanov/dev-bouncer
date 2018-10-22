@@ -10,9 +10,9 @@ class DevNotFoundException extends Exception
     /**
      * {@inheritdoc}
      */
-    public function __construct(string $name, int $code = 0, Throwable $previous = null)
+    public function __construct(int $id, int $code = 0, Throwable $previous = null)
     {
-        $message = sprintf('Dev %s doesn\'t exist', $name);
+        $message = sprintf('Dev %s doesn\'t exist', $id);
 
         parent::__construct($message, $code, $previous);
     }
