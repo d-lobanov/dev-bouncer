@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conversations\ExampleConversation;
+use App\Conversations\OccupyDevConversation;
 use BotMan\BotMan\BotMan;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -10,9 +11,19 @@ use Illuminate\View\View;
 class BotManController extends Controller
 {
     /**
-     * Place your BotMan logic here.
+     * @var OccupyDevConversation
      */
-    public function handle()
+    private $occupyDevConversation;
+
+    /**
+     * @param OccupyDevConversation $occupyDevConversation
+     */
+    public function __construct(OccupyDevConversation $occupyDevConversation)
+    {
+        $this->occupyDevConversation = $occupyDevConversation;
+    }
+
+    public function handle(): void
     {
         $botman = app('botman');
 
@@ -27,17 +38,11 @@ class BotManController extends Controller
         return view('tinker');
     }
 
-    public function take(BotMan $bot, $name, $time)
-    {
-        $bot->reply($name);
-        $bot->reply($time);
-    }
-
     /**
-     * @param  BotMan $bot
+     * @param BotMan $bot
      */
-    public function startConversation(BotMan $bot)
+    public function take(BotMan $bot): void
     {
-        $bot->startConversation(new ExampleConversation());
+        $bot->startConversation($this->occupyDevConversation);
     }
 }

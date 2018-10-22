@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -36,11 +37,21 @@ class Dev extends Model
     ];
 
     /**
+     * @return Dev[]|Collection|Builder
+     */
+    public static function allFree()
+    {
+        return Dev::whereDate('expired_at', '<', now())
+            ->orWhereNull('expired_at')
+            ->get();
+    }
+
+    /**
      * @return bool
      */
     public function isOccupied(): bool
     {
-        return $this->expired_at < now();
+        return !is_null($this->owner_skype_id) && $this->expired_at > now();
     }
 
     /**

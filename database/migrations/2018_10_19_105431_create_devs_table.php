@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStatusesTable extends Migration
+class CreateDevsTable extends Migration
 {
-    const TABLE = 'statuses';
+    const TABLE = 'devs';
 
     /**
      * Run the migrations.
@@ -39,6 +39,6 @@ class CreateStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists(self::TABLE);
     }
 }

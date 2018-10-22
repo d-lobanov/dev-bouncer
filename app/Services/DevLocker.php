@@ -3,7 +3,8 @@
 namespace App\Services;
 
 use App\Dev;
-use App\Exceptions\LockException;
+use App\Exceptions\DevIsOccupiedException;
+use App\Exceptions\DevNotFoundException;
 
 class DevLocker
 {
@@ -15,20 +16,20 @@ class DevLocker
      *
      * @return bool
      *
-     * @throws \Exception
+     * @throws DevNotFoundException|DevIsOccupiedException
      */
     public function lock(string $name, string $ownerId, \DateTime $expiredAt, ?string $comment)
     {
-        $status = Dev::whereName($name);
+        $dev = Dev::whereName($name);
 
-        if (!$status) {
-            throw new LockException(LockException::DEV_NOT_EXISTS);
+        if (!$dev) {
+            throw new DevNotFoundException($name);
         }
 
-        if ($status->isOccupied()) {
-            throw new LockException(LockException::DEV_IS_OCCUPIED);
+        if ($dev->isOccupied()) {
+            throw new DevIsOccupiedException($name);
         }
 
-        return $status->occupy($ownerId, $expiredAt, $comment);
+        return $dev->occupy($ownerId, $expiredAt, $comment);
     }
 }
