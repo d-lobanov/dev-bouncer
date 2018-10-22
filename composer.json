@@ -47,7 +47,7 @@
     "scripts": {
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "[ -f .env1 ] || (cp .env.example .env && php artisan key:generate)",
+            "[ -f .env ] || (cp .env.example .env && php artisan key:generate)",
             "BotMan\\Studio\\Providers\\DriverServiceProvider::publishDriverConfigurations"
         ],
         "post-update-cmd": [

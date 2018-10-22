@@ -10,19 +10,6 @@ use Illuminate\View\View;
 
 class BotManController extends Controller
 {
-    /**
-     * @var OccupyDevConversation
-     */
-    private $occupyDevConversation;
-
-    /**
-     * @param OccupyDevConversation $occupyDevConversation
-     */
-    public function __construct(OccupyDevConversation $occupyDevConversation)
-    {
-        $this->occupyDevConversation = $occupyDevConversation;
-    }
-
     public function handle(): void
     {
         $botman = app('botman');
@@ -43,6 +30,6 @@ class BotManController extends Controller
      */
     public function take(BotMan $bot): void
     {
-        $bot->startConversation($this->occupyDevConversation);
+        $bot->startConversation(new OccupyDevConversation());
     }
 }

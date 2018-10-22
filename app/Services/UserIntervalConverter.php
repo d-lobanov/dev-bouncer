@@ -13,10 +13,10 @@ class UserIntervalConverter
      * @param string $userInput
      * @return Carbon|null
      */
-    public function convert(string $userInput): ?Carbon
+    public static function convert(string $userInput): ?Carbon
     {
-        $days = $this->parseDays($userInput);
-        $hours = $this->parseHours($userInput);
+        $days = self::parseDays($userInput);
+        $hours = self::parseHours($userInput);
 
         if (!$days && !$hours) {
             return null;
@@ -33,7 +33,7 @@ class UserIntervalConverter
      * @param string $userInput
      * @return int|null
      */
-    private function parseDays(string $userInput): ?int
+    private static function parseDays(string $userInput): ?int
     {
         if (preg_match('/(\d+)\s?(d|D)/', $userInput, $matches)) {
             return (int)$matches[1];
@@ -46,7 +46,7 @@ class UserIntervalConverter
      * @param string $userInput
      * @return int|null
      */
-    private function parseHours(string $userInput): ?int
+    private static function parseHours(string $userInput): ?int
     {
         if (preg_match('/(\d+)\s?(h|H)/', $userInput, $matches)) {
             return (int)$matches[1];

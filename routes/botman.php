@@ -17,6 +17,9 @@ $botman->hears('hi', function (BotMan $bot) {
 //$botman->hears('take {name} for {time}', BotManController::class . '@take');
 $botman->hears('take', BotManController::class . '@take');
 
-$botman->fallback(function ($bot) {
-    $bot->reply('Sorry, I did not understand these commands.');
+$botman->fallback(function (BotMan $bot) {
+    $bot->randomReply([
+        'Sorry, I did not understand these commands.',
+        'I did not get it',
+    ]);
 });

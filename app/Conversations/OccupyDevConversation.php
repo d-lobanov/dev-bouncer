@@ -29,14 +29,6 @@ class OccupyDevConversation extends Conversation
     protected $intervalConverter;
 
     /**
-     * @param UserIntervalConverter $intervalConverter
-     */
-    public function __construct(UserIntervalConverter $intervalConverter)
-    {
-        $this->intervalConverter = $intervalConverter;
-    }
-
-    /**
      * @return OccupyDevConversation
      */
     public function askDevName(): OccupyDevConversation
@@ -74,7 +66,13 @@ class OccupyDevConversation extends Conversation
             ->addButtons($buttons->toArray());
 
         return $this->ask($question, function (Answer $answer) {
-            $date = $this->intervalConverter->convert($answer->getText());
+            $date = UserIntervalConverter::convert((string)$answer->getText());
+
+            if (!$date) {
+                $this->say('Sorry did\'n get it');
+                $this->repeat();
+            }
+
             $this->bot->reply($date->hour);
             $this->bot->reply($date->day);
         });
