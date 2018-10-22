@@ -73,8 +73,7 @@ class OccupyDevConversation extends Conversation
                 $this->repeat();
             }
 
-            $this->bot->reply($date->hour);
-            $this->bot->reply($date->day);
+            $this->bot->reply($date->format('Y-m-d H:i:s'));
         });
     }
 
