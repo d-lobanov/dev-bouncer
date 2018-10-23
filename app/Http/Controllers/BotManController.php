@@ -64,9 +64,6 @@ class BotManController extends Controller
      */
     public function status(BotMan $bot): void
     {
-        $username = $bot->getUser()->getUsername();
-        $bot->reply("@$username");
-
         $message = Dev::all()->map([$this->formatter, 'toMessage'])->implode(self::SKYPE_NEW_LINE);
 
         $bot->reply($message);

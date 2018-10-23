@@ -18,6 +18,6 @@ class DevMessageFormatter
             return $message . ' – free';
         }
 
-        return $message . ' – ' . $dev->expired_at->diffForHumans(null, true) . ' – ' . $dev->owner_skype_id;
+        return $message . ' – ' . $dev->expired_at->diffForHumans(null, true) . ' – ' . $dev->owner_skype_username;
     }
 }

@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Dev whereOwnerSkypeId($value)
  * @method static Builder|Dev whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $owner_skype_username
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Dev whereOwnerSkypeUsername($value)
  */
 class Dev extends Model
 {
@@ -40,6 +42,7 @@ class Dev extends Model
     protected $fillable = [
         'name',
         'owner_skype_id',
+        'owner_skype_username',
         'expired_at',
         'comment',
     ];
@@ -64,13 +67,15 @@ class Dev extends Model
 
     /**
      * @param string $ownerId
+     * @param string $ownerUsername
      * @param DateTime $expiredAt
      * @param string|null $comment
      * @return bool
      */
-    public function occupy(string $ownerId, DateTime $expiredAt, ?string $comment)
+    public function occupy(string $ownerId, string $ownerUsername, DateTime $expiredAt, ?string $comment)
     {
         $this->owner_skype_id = $ownerId;
+        $this->owner_skype_username = $ownerUsername;
         $this->expired_at = $expiredAt;
         $this->comment = $comment;
 
@@ -83,6 +88,7 @@ class Dev extends Model
     public function release()
     {
         $this->owner_skype_id = null;
+        $this->owner_skype_username = null;
         $this->expired_at = null;
         $this->comment = null;
 
