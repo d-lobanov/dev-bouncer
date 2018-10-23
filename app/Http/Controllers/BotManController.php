@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Conversations\OccupyDevConversation;
 use App\Conversations\ReleaseDevConversation;
 use App\Dev;
-use App\Services\SkypeMessageFormatter;
+use App\Services\SkypeMessageFormatter as Formatter;
 use BotMan\BotMan\BotMan;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -13,14 +13,14 @@ use Illuminate\View\View;
 class BotManController extends Controller
 {
     /**
-     * @var SkypeMessageFormatter
+     * @var Formatter
      */
     private $formatter;
 
     /**
-     * @param SkypeMessageFormatter $formatter
+     * @param Formatter $formatter
      */
-    public function __construct(SkypeMessageFormatter $formatter)
+    public function __construct(Formatter $formatter)
     {
         $this->formatter = $formatter;
     }
@@ -62,14 +62,8 @@ class BotManController extends Controller
      */
     public function status(BotMan $bot): void
     {
-        $devs = Dev::all()->map(function (Dev $dev) {
-            return [
-                $this->formatter->bold($dev->name),
-                $dev->isOccupied() ? $dev->expired_at->diffForHumans(null, true) : 'free',
-                $dev->owner_skype_username ?? '',
-            ];
-        })->toArray();
+        $message = Dev::all()->map([$this->formatter, 'devStatus'])->implode(Formatter::SKYPE_NEW_LINE);
 
-        $bot->reply($this->formatter->table($devs));
+        $bot->reply($message);
     }
 }

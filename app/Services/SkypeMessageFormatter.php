@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Dev;
+
 class SkypeMessageFormatter
 {
     const SKYPE_NEW_LINE = "\n\n";
@@ -16,44 +18,20 @@ class SkypeMessageFormatter
     }
 
     /**
-     * Add padding for each row of two-dimensional array.
-     * For example:
-     * <code>
-     * [
-     *  ['dev123', 'john_doe'],
-     *  ['dev1', 'john_doe'],
-     * ]
-     *
-     * // Result
-     * // dev123 john_doe
-     * // dev1   john_doe
-     * </code>
-     *
-     * @param string[][] $lines
+     * @param Dev $dev
      * @return string
      */
-    public function table(array $lines): string
+    public function devStatus(Dev $dev): string
     {
-        if (empty($lines)) {
-            return '';
+        $name = $this->bold($dev->name);
+
+        if (!$dev->isOccupied()) {
+            return "$name – free";
         }
 
-        $maxValues = [];
-        foreach ($lines[0] as $column => $value) {
-            $length = array_map('strlen', array_column($lines, $column));
-            $maxValues[$column] = max($length);
-        }
+        $time = $dev->expired_at->diffForHumans(null, true);
+        $comment = $dev->comment ? "\"{$dev->comment}\"" : '';
 
-        $result = [];
-        foreach ($lines as $line) {
-            $padLine = [];
-            foreach ($line as $column => $value) {
-                $padLine[] = str_pad($value, $maxValues[$column]);
-            }
-
-            $result[] = implode(' ', $padLine);
-        }
-
-        return implode(self::SKYPE_NEW_LINE, $result);
+        return "$name – {$dev->owner_skype_username} for {$time} {$comment}";
     }
 }
