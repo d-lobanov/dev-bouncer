@@ -3,12 +3,13 @@
 namespace App\Conversations;
 
 use App\Dev;
-use App\Services\DevLocker;
-use App\Services\UserIntervalConverter;
+use App\Facades\DevBouncer;
+use App\Facades\UserInterval;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
+use Illuminate\Support\Collection;
 
 class OccupyDevConversation extends Conversation
 {
@@ -20,22 +21,21 @@ class OccupyDevConversation extends Conversation
     protected $devId;
 
     /**
-     * @var
+     * @var int. Time when dev is expired in minutes from now.
      */
     protected $expiredAt;
 
     /**
+     * @param Collection $devs
      * @return OccupyDevConversation
      */
-    public function askDevName()
+    protected function askDevName(Collection $devs)
     {
-        $devs = Dev::allFree();
-
-        $buttons = $devs->map(function (Dev $dev, $id) {
-            return Button::create($dev->name)->value($id);
+        $buttons = $devs->map(function (Dev $dev) {
+            return Button::create($dev->name)->value($dev->id);
         });
 
-        $question = Question::create('Which dev do you want?')
+        $question = Question::create('Which one?')
             ->fallback('Unable to ask question')
             ->callbackId('ask_occupy_dev_name')
             ->addButtons($buttons->toArray());
@@ -45,6 +45,8 @@ class OccupyDevConversation extends Conversation
                 $this->devId = (int)$answer->getValue();
 
                 $this->askInterval();
+            } else {
+                $this->repeat();
             }
         });
     }
@@ -52,7 +54,7 @@ class OccupyDevConversation extends Conversation
     /**
      * @return OccupyDevConversation
      */
-    public function askInterval()
+    protected function askInterval()
     {
         $buttons = collect(self::DEFAULT_INTERVALS)->map(function ($text) {
             return Button::create($text)->value($text);
@@ -64,7 +66,7 @@ class OccupyDevConversation extends Conversation
             ->addButtons($buttons->toArray());
 
         return $this->ask($question, function (Answer $answer) {
-            $time = UserIntervalConverter::convert((string)$answer->getValue());
+            $time = UserInterval::parse((string)$answer->getValue());
 
             if ($time) {
                 $this->expiredAt = $time;
@@ -78,19 +80,23 @@ class OccupyDevConversation extends Conversation
         });
     }
 
-    public function askComment()
+    /**
+     * @return OccupyDevConversation
+     */
+    protected function askComment()
     {
         $question = Question::create('Comment?')
             ->fallback('Unable to ask question')
             ->callbackId('ask_occupy_dev_comment');
 
         return $this->ask($question, function (Answer $answer) {
-            $comment = $answer->getValue();
+            try {
+                DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getValue());
 
-            /** @var DevLocker $locker */
-            $locker = app()->make(DevLocker::class);
-
-            $locker->lock($this->devId, $this->bot->getUser(), $this->expiredAt, $comment);
+                $this->say('Dev was locked');
+            } catch (\Exception $e) {
+                $this->say('Sorry, error occurred. Try again.');
+            }
         });
     }
 
@@ -99,6 +105,8 @@ class OccupyDevConversation extends Conversation
      */
     public function run()
     {
-        $this->askDevName();
+        $devs = Dev::allFree();
+
+        $devs->isEmpty() ? $this->say('There are no free day right now. Sorry :(') : $this->askDevName($devs);
     }
 }

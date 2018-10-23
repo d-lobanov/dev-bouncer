@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string|null $owner_skype_id
  * @property string|null $comment
- * @property string|null $expired_at
+ * @property Carbon|null $expired_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static Builder|Dev whereComment($value)
@@ -20,12 +21,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static Builder|Dev whereExpiredAt($value)
  * @method static Builder|Dev whereId($value)
  * @method static Builder|Dev whereName($value)
- * @method static Builder|Dev whereOwnerSkype($value)
+ * @method static Builder|Dev whereOwnerSkypeId($value)
  * @method static Builder|Dev whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Dev extends Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected $dates = [
+        'expired_at',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +49,7 @@ class Dev extends Model
      */
     public static function allFree()
     {
-        return Dev::whereTime('expired_at', '<', now())
+        return Dev::where('expired_at', '<', now())
             ->orWhereNull('expired_at')
             ->get();
     }
@@ -51,7 +59,7 @@ class Dev extends Model
      */
     public function isOccupied(): bool
     {
-        return !is_null($this->owner_skype_id) && $this->expired_at > now();
+        return $this->expired_at && $this->expired_at > now();
     }
 
     /**
@@ -68,4 +76,17 @@ class Dev extends Model
 
         return $this->save();
     }
+
+    /**
+     * @return bool
+     */
+    public function release()
+    {
+        $this->owner_skype_id = null;
+        $this->expired_at = null;
+        $this->comment = null;
+
+        return $this->save();
+    }
+
 }

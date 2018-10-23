@@ -8,7 +8,7 @@ use App\Exceptions\DevNotFoundException;
 use BotMan\BotMan\Interfaces\UserInterface;
 use Carbon\Carbon;
 
-class DevLocker
+class DevBouncer
 {
     /**
      * @param int $id
@@ -18,10 +18,9 @@ class DevLocker
      *
      * @return bool
      *
-     * @throws DevIsOccupiedException
-     * @throws DevNotFoundException
+     * @throws DevIsOccupiedException|DevNotFoundException
      */
-    public function lock(int $id, UserInterface $owner, int $expiredAt, ?string $comment)
+    public function occupy(int $id, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
         $dev = Dev::find($id);
 
@@ -34,5 +33,25 @@ class DevLocker
         }
 
         return $dev->occupy($owner->getId(), Carbon::createFromTimestamp($expiredAt), $comment);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     * @throws DevNotFoundException
+     */
+    public function release(int $id): bool
+    {
+        $dev = Dev::find($id);
+
+        if (!$dev) {
+            throw new DevNotFoundException($id);
+        }
+
+        $dev->owner_skype_id = null;
+        $dev->expired_at = null;
+        $dev->comment = null;
+
+        return $dev->release();
     }
 }

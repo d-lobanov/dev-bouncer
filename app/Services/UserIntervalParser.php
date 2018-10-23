@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 
-class UserIntervalConverter
+class UserIntervalParser
 {
     const DAYS_REGEX = '/([1-9][0-9]*)\s?(d|D)/';
     const HOURS_REGEX = '/([1-9][0-9]*)\s?(h|H)/';
@@ -13,10 +13,12 @@ class UserIntervalConverter
     const MINUTES_IN_DAY = 24 * 60;
 
     /**
+     * Convert user input to timestamp. 
+     * 
      * @param string $userInput
      * @return int|null
      */
-    public static function convert(string $userInput): ?int
+    public function parse(string $userInput): ?int
     {
         $days = self::parseDays($userInput);
         $hours = self::parseHours($userInput);
@@ -36,7 +38,7 @@ class UserIntervalConverter
      * @param string $userInput
      * @return int|null
      */
-    private static function parseDays(string $userInput): ?int
+    private function parseDays(string $userInput): ?int
     {
         if (preg_match('/(\d+)\s?(d|D)/', $userInput, $matches)) {
             return (int)$matches[1];
@@ -49,7 +51,7 @@ class UserIntervalConverter
      * @param string $userInput
      * @return int|null
      */
-    private static function parseHours(string $userInput): ?int
+    private function parseHours(string $userInput): ?int
     {
         if (preg_match('/(\d+)\s?(h|H)/', $userInput, $matches)) {
             return (int)$matches[1];

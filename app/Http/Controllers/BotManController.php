@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Conversations\ExampleConversation;
 use App\Conversations\OccupyDevConversation;
+use App\Conversations\ReleaseDevConversation;
+use App\Dev;
 use BotMan\BotMan\BotMan;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -29,8 +30,32 @@ class BotManController extends Controller
     /**
      * @param BotMan $bot
      */
-    public function take(BotMan $bot): void
+    public function occupy(BotMan $bot): void
     {
         $bot->startConversation(new OccupyDevConversation());
+    }
+
+    /**
+     * @param BotMan $bot
+     */
+    public function release(BotMan $bot): void
+    {
+        $bot->startConversation(new ReleaseDevConversation());
+    }
+
+    /**
+     * @param BotMan $botMan
+     */
+    public function status(BotMan $botMan): void
+    {
+        $message = Dev::all()->map(function (Dev $dev) {
+            if (!$dev->isOccupied()) {
+                return $dev->name . ' – free';
+            }
+
+            return $dev->name . ' ' . $dev->expired_at->diffForHumans(null, true) . ' ' . $dev->owner_skype_id;
+        })->implode("\n");
+
+        $botMan->reply($message);
     }
 }
