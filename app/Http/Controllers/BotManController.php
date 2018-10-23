@@ -11,6 +11,8 @@ use Illuminate\View\View;
 
 class BotManController extends Controller
 {
+    const SKYPE_NEW_LINE = "\n\n\u200C";
+
     public function handle(): void
     {
         /** @var BotMan $bot */
@@ -54,7 +56,7 @@ class BotManController extends Controller
             }
 
             return $dev->name . ' ' . $dev->expired_at->diffForHumans(null, true) . ' ' . $dev->owner_skype_id;
-        })->implode("\n");
+        })->implode(self::SKYPE_NEW_LINE);
 
         $botMan->reply($message);
     }
