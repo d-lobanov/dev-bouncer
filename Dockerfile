@@ -25,4 +25,4 @@ RUN touch /var/log/cron.log
 RUN pecl install xdebug-2.6.0 && docker-php-ext-enable xdebug
 # End
 
-CMD php-fpm
+CMD cron && php-fpm
