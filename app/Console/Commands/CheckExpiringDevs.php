@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Dev;
 use App\Services\SkypeBotMan;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class CheckExpiringDevs extends Command
@@ -41,10 +42,13 @@ class CheckExpiringDevs extends Command
     public function handle(): void
     {
         $this->notifyAndReleaseExpired();
-        $this->notifyExpiringInFiftyMinutes();
-        $this->notifyExpiringInHour();
+        $this->notify(15);
+        $this->notify(60);
     }
 
+    /**
+     * Notify user that dev has been expired and release dev.
+     */
     private function notifyAndReleaseExpired(): void
     {
         $devs = Dev::where('expired_at', '<', now())->get();
@@ -57,31 +61,21 @@ class CheckExpiringDevs extends Command
         });
     }
 
-    private function notifyExpiringInFiftyMinutes(): void
+    /**
+     * Notify user that dev will be expired soon.
+     *
+     * @param int $minutes. Minutes before expiration.
+     */
+    private function notify(int $minutes): void
     {
-        $devs = Dev::where('expired_at', '<', now()->addMinutes(15))->get();
+        $time = now()->addMinutes($minutes);
+        $devs = Dev::where('expired_at', '<', $time)->get();
 
-        $devs->each(function (Dev $dev) {
-            $diffMinutes = $dev->notified_at->diff($dev->expired_at)->i;
+        $devs->each(function (Dev $dev) use ($minutes) {
+            $diffMinutes = $dev->notified_at->diffInMinutes();
 
-            if ($diffMinutes > 15) {
-                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in 15 minutes";
-                $this->skype->say($message, $dev->owner_skype_id);
-
-                $dev->notified();
-            }
-        });
-    }
-
-    private function notifyExpiringInHour(): void
-    {
-        $devs = Dev::where('expired_at', '<', now()->addHour())->get();
-
-        $devs->each(function (Dev $dev) {
-            $diffMinutes = $dev->notified_at->diff($dev->expired_at)->i;
-
-            if ($diffMinutes > 60) {
-                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in 1 hour";
+            if ($diffMinutes > $minutes) {
+                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in {$minutes} minutes";
                 $this->skype->say($message, $dev->owner_skype_id);
 
                 $dev->notified();
