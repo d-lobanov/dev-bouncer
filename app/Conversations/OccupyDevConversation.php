@@ -67,7 +67,7 @@ class OccupyDevConversation extends Conversation
             ->addButtons($buttons->toArray());
 
         return $this->ask($question, function (Answer $answer) {
-            $time = UserInterval::parse((string)$answer->getValue());
+            $time = UserInterval::parse($answer->getText());
 
             if ($time) {
                 $this->expiredAt = $time;
@@ -92,7 +92,7 @@ class OccupyDevConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             try {
-                DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getValue());
+                DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 
                 $this->say('Dev was occupied (key)');
             } catch (\Exception $e) {

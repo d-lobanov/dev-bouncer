@@ -4,7 +4,6 @@ use App\Http\Middleware\Bot\TrimMessage;
 use App\Http\Controllers\BotManController;
 use App\Http\Middleware\Bot\RemoveBotNickname;
 use BotMan\BotMan\BotMan;
-use Illuminate\Support\Carbon;
 
 /** @var BotMan $botman */
 $botman = resolve('botman');
@@ -36,8 +35,5 @@ $botman->hears('test_change {name} {eMinutes} {nMinutes}', function (BotMan $bot
 });
 
 $botman->fallback(function (BotMan $bot) {
-    $bot->randomReply([
-        'Sorry, I did not understand these commands.',
-        'I did not get it',
-    ]);
+    $bot->reply('Sorry, I did not understand these commands.');
 });

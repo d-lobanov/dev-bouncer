@@ -74,7 +74,9 @@ class CheckExpiringDevs extends Command
             $diffMinutes = $dev->notified_at->diffInMinutes();
 
             if ($diffMinutes > $minutes) {
-                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in {$minutes} minutes";
+                $expiredAt = $dev->expired_at->diffForHumans(null, true);
+
+                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in {$expiredAt}";
                 $this->skype->say($message, $dev->owner_skype_id);
 
                 $dev->notified();
