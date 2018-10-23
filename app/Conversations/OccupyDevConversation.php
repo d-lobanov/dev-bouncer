@@ -91,6 +91,7 @@ class OccupyDevConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             try {
+                $this->say($answer->getValue());
                 DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getValue());
 
                 $this->say('Dev was locked');

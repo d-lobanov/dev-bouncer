@@ -65,10 +65,10 @@ class Dev extends Model
     /**
      * @param string $ownerId
      * @param DateTime $expiredAt
-     * @param string $comment
+     * @param string|null $comment
      * @return bool
      */
-    public function occupy(string $ownerId, DateTime $expiredAt, string $comment)
+    public function occupy(string $ownerId, DateTime $expiredAt, ?string $comment)
     {
         $this->owner_skype_id = $ownerId;
         $this->expired_at = $expiredAt;
