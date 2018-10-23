@@ -30,9 +30,10 @@ class SkypeMessageFormatter
      * </code>
      *
      * @param string[][] $lines
+     * @param string $columnSeparator
      * @return string
      */
-    public function table(array $lines): string
+    public function table(array $lines, string $columnSeparator = ' - '): string
     {
         if (empty($lines)) {
             return '';
@@ -51,7 +52,7 @@ class SkypeMessageFormatter
                 $padLine[] = str_pad($value, $maxValues[$column]);
             }
 
-            $result[] = implode(' ', $padLine);
+            $result[] = implode($columnSeparator, $padLine);
         }
 
         return implode(self::SKYPE_NEW_LINE, $result);
