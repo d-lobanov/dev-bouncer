@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Dev;
 use App\Services\SkypeBotMan;
+use App\Services\SkypeMessageFormatter;
 use Illuminate\Console\Command;
 
 class CheckExpiringDevs extends Command
@@ -26,13 +27,20 @@ class CheckExpiringDevs extends Command
     private $skype;
 
     /**
-     * @param SkypeBotMan $skype
+     * @var SkypeMessageFormatter
      */
-    public function __construct(SkypeBotMan $skype)
+    private $formatter;
+
+    /**
+     * @param SkypeBotMan $skype
+     * @param SkypeMessageFormatter $formatter
+     */
+    public function __construct(SkypeBotMan $skype, SkypeMessageFormatter $formatter)
     {
         parent::__construct();
 
         $this->skype = $skype;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -74,9 +82,9 @@ class CheckExpiringDevs extends Command
             $diffMinutes = $dev->notified_at->diffInMinutes();
 
             if ($diffMinutes > $minutes) {
-                $expiredAt = $dev->expired_at->diffForHumans(null, true);
+                $time = $this->formatter->formatDateDiff($dev->expired_at);
 
-                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in {$expiredAt}";
+                $message = "{$dev->owner_skype_username} #{$dev->name} will be expired in {$time}";
                 $this->skype->say($message, $dev->owner_skype_id);
 
                 $dev->notified();

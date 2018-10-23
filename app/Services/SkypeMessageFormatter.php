@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Dev;
+use Carbon\Carbon;
 
 class SkypeMessageFormatter
 {
@@ -29,9 +30,21 @@ class SkypeMessageFormatter
             return "$name – free";
         }
 
-        $time = $dev->expired_at->diffForHumans(null, true, true, 2);
+        $time = $this->formatDateDiff($dev->expired_at);
         $comment = $dev->comment ? "\"{$dev->comment}\"" : '';
 
         return "$name – {$dev->owner_skype_username} for {$time} {$comment}";
+    }
+
+    /**
+     * @param Carbon $datetime
+     *
+     * @return string
+     */
+    public function formatDateDiff(Carbon $datetime): string
+    {
+        $parts = $datetime->diffInHours() < 1 ? 1 : 2;
+
+        return $datetime->diffForHumans(null, true, true, $parts);
     }
 }
