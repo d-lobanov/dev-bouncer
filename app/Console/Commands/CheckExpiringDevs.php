@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 class CheckExpiringDevs extends Command
 {
     /**
+     * {@inheritdoc}
      */
     protected $signature = 'dev-bot:check';
 
@@ -39,9 +40,11 @@ class CheckExpiringDevs extends Command
      */
     public function handle(): void
     {
-        $this->notifyAndReleaseExpired();
-        $this->notifyExpiringInFiftyMinutes();
-        $this->notifyExpiringInHour();
+        $this->skype->say('123', '29:13rADbPHr2Ven7MTrrk4tXKKCmugb9Aral9eM-epgddw');
+
+//        $this->notifyAndReleaseExpired();
+//        $this->notifyExpiringInFiftyMinutes();
+//        $this->notifyExpiringInHour();
     }
 
     private function notifyAndReleaseExpired(): void
