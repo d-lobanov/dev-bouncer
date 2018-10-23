@@ -29,7 +29,7 @@ class SkypeMessageFormatter
             return "$name – free";
         }
 
-        $time = $dev->expired_at->diffForHumans(null, true);
+        $time = $dev->expired_at->diffForHumans(null, true, true, 2);
         $comment = $dev->comment ? "\"{$dev->comment}\"" : '';
 
         return "$name – {$dev->owner_skype_username} for {$time} {$comment}";
