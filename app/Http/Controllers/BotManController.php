@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class BotManController extends Controller
 {
-    const SKYPE_NEW_LINE = "\n\n\u200C";
+    const SKYPE_NEW_LINE = "\n\n";
 
     public function handle(): void
     {
