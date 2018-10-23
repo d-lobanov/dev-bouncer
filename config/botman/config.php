@@ -25,4 +25,6 @@ return [
     |
     */
     'user_cache_time' => 30,
+
+    'bot_name' => env('BOT_NICKNAME', ''),
 ];

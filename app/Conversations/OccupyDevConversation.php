@@ -94,7 +94,7 @@ class OccupyDevConversation extends Conversation
             try {
                 DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getValue());
 
-                $this->say('Dev was locked (key)');
+                $this->say('Dev was occupied (key)');
             } catch (\Exception $e) {
                 Log::alert($e->getMessage());
                 $this->say('Sorry, error occurred. Try again. (brokenheart)');
@@ -109,6 +109,6 @@ class OccupyDevConversation extends Conversation
     {
         $devs = Dev::allFree();
 
-        $devs->isEmpty() ? $this->say('There are no free devs right now. Sorry :(') : $this->askDevName($devs);
+        $devs->isEmpty() ? $this->say('All dev servers are occupied right now. Sorry :(') : $this->askDevName($devs);
     }
 }

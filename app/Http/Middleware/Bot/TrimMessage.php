@@ -8,8 +8,6 @@ use BotMan\BotMan\Messages\Incoming\IncomingMessage;
 
 class TrimMessage implements Received
 {
-    const BOT_NICKNAME = 'dev_test_1';
-
     /**
      * @param IncomingMessage $message
      * @param callable $next

@@ -13,8 +13,8 @@ class UserIntervalParser
     const MINUTES_IN_DAY = 24 * 60;
 
     /**
-     * Convert user input to timestamp. 
-     * 
+     * Convert user input to timestamp.
+     *
      * @param string $userInput
      * @return int|null
      */

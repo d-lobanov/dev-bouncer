@@ -47,6 +47,6 @@ class ReleaseDevConversation extends Conversation
 
         $devs = Dev::whereOwnerSkypeId($id)->get();
 
-        $devs->isEmpty() ? $this->say('You don\'t own any devs') : $this->askDevName($devs);
+        $devs->isEmpty() ? $this->say('You don\'t have any devs') : $this->askDevName($devs);
     }
 }

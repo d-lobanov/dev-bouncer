@@ -15,7 +15,6 @@ class SkypeBotMan
     private $bot;
 
     /**
-     * SkypeBotMan constructor.
      * @param BotMan $botMan
      */
     public function __construct(BotMan $botMan)
@@ -24,7 +23,7 @@ class SkypeBotMan
     }
 
     /**
-     * Need specific method for sending messages to skype. Read more here https://botman.io/2.0/sending
+     * Need specific method for sending messages to skype. Read more https://botman.io/2.0/sending
      *
      * @param string $message
      * @param string|array $recipients

@@ -2,8 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Dev;
 use App\Services\SkypeMessageFormatter as Formatter;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class SkypeMessageFormatterTest extends TestCase
 {
@@ -14,22 +15,26 @@ class SkypeMessageFormatterTest extends TestCase
         $this->assertEquals('**test**', $formatter->bold('test'));
     }
 
-    public function testTable()
+    public function testFreeDevStatus()
     {
-        $input = [
-            ['dev111', 'john'],
-            ['dev1', 'john_doe'],
-        ];
-
         $formatter = new Formatter();
+        $dev = factory(Dev::class)->make();
 
-        $this->assertEquals("dev111 john    \n\ndev1   john_doe", $formatter->table($input));
+        $this->assertEquals("**{$dev->name}** – free", $formatter->devStatus($dev));
     }
 
-    public function testTableEmptyInput()
+    public function testOccupiedDevStatus()
     {
         $formatter = new Formatter();
 
-        $this->assertEquals('', $formatter->table([]));
+        $dev = factory(Dev::class)->make([
+            'name' => 'dev1',
+            'owner_skype_username' => 'test_user',
+            'expired_at' => now()->addHour(),
+            'comment' => 'Test',
+        ]);
+
+        $this->assertEquals('**dev1** – test_user for 1h "Test"', $formatter->devStatus($dev));
     }
+
 }

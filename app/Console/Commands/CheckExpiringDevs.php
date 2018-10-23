@@ -63,7 +63,7 @@ class CheckExpiringDevs extends Command
     /**
      * Notify user that dev will be expired soon.
      *
-     * @param int $minutes. Minutes before expiration.
+     * @param int $minutes . Minutes before expiration.
      */
     private function notify(int $minutes): void
     {
