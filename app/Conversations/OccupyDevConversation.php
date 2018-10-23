@@ -96,6 +96,7 @@ class OccupyDevConversation extends Conversation
 
                 $this->say('Dev was locked');
             } catch (\Exception $e) {
+                Log::alert($e->getMessage());
                 $this->say('Sorry, error occurred. Try again.');
             }
         });
