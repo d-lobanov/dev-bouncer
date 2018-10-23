@@ -18,6 +18,12 @@ $botman->hears('occupy|lock|take', BotManController::class . '@occupy');
 $botman->hears('status', BotManController::class . '@status');
 $botman->hears('release|unlock|give', BotManController::class . '@release');
 
+$botman->hears('test_change {name} {minutes}', function (BotMan $bot, $name, $minutes) {
+    \App\Dev::whereName($name)->first()->occupy($bot->getUser()->getId(), $bot->getUser()->getId(), now()->addMinutes($minutes), null);
+
+    $bot->reply('ok');
+});
+
 $botman->fallback(function (BotMan $bot) {
     $bot->randomReply([
         'Sorry, I did not understand these commands.',

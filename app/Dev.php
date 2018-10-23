@@ -79,7 +79,7 @@ class Dev extends Model
      * @param string|null $comment
      * @return bool
      */
-    public function occupy(string $ownerId, string $ownerUsername, DateTime $expiredAt, ?string $comment)
+    public function occupy(string $ownerId, string $ownerUsername, DateTime $expiredAt, ?string $comment = null)
     {
         $this->owner_skype_id = $ownerId;
         $this->owner_skype_username = $ownerUsername;

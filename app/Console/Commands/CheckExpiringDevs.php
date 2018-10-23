@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Dev;
 use App\Services\SkypeBotMan;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class CheckExpiringDevs extends Command
