@@ -15,7 +15,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN docker-php-ext-install zip
 
 # Cron
-RUN printf "* * * * * cd /var/www/bot && /usr/local/bin/php artisan schedule:run >> /var/log/cron.log 2>&1\n" >> /etc/cron.d/scheduler-cron
+RUN printf "* * * * * cd /var/www/bot && /usr/local/bin/php artisan schedule:run >> /var/log/cron.log 2>&1\n" >> /var/www/bot/storage/logs/cron.log
 RUN chmod 0644 /etc/cron.d/scheduler-cron
 RUN crontab /etc/cron.d/scheduler-cron
 RUN touch /var/log/cron.log
