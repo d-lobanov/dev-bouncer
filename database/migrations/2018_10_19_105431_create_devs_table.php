@@ -21,8 +21,9 @@ class CreateDevsTable extends Migration
             $table->string('name')->unique();
             $table->string('owner_skype_id')->nullable();
             $table->string('owner_skype_username')->nullable();
-            $table->text('comment')->nullable();
             $table->timestamp('expired_at')->nullable();
+            $table->timestamp('notified_at')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
 

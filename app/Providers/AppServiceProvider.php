@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Services\DevBouncer;
+use App\Services\SkypeBotMan;
 use App\Services\UserIntervalParser;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,10 +39,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() === 'local') {
             $this->app->register(IdeHelperServiceProvider::class);
         }
+
+        $this->app->singleton(SkypeBotMan::class, function (Application $app) {
+            return new SkypeBotMan($app->get('botman'));
+        });
     }
 
-    public static function test()
-    {
-        static::class;
-    }
 }

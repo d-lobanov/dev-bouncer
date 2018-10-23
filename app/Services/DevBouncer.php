@@ -32,7 +32,12 @@ class DevBouncer
             throw new DevIsOccupiedException($id);
         }
 
-        return $dev->occupy($owner->getId(), $owner->getUsername(), Carbon::createFromTimestamp($expiredAt), $comment);
+        return $dev->occupy(
+            $owner->getId(),
+            $owner->getUsername() ?? $owner->getId(),
+            Carbon::createFromTimestamp($expiredAt),
+            $comment
+        );
     }
 
     /**

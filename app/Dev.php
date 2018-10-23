@@ -8,24 +8,29 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+
 /**
+ * App\Dev
+ *
  * @property int $id
  * @property string $name
  * @property string|null $owner_skype_id
- * @property string|null $comment
+ * @property string|null $owner_skype_username
  * @property Carbon|null $expired_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $notified_at
+ * @property string|null $comment
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @method static Builder|Dev whereComment($value)
  * @method static Builder|Dev whereCreatedAt($value)
  * @method static Builder|Dev whereExpiredAt($value)
  * @method static Builder|Dev whereId($value)
  * @method static Builder|Dev whereName($value)
+ * @method static Builder|Dev whereNotifiedAt($value)
  * @method static Builder|Dev whereOwnerSkypeId($value)
+ * @method static Builder|Dev whereOwnerSkypeUsername($value)
  * @method static Builder|Dev whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property string|null $owner_skype_username
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Dev whereOwnerSkypeUsername($value)
  */
 class Dev extends Model
 {
@@ -34,6 +39,7 @@ class Dev extends Model
      */
     protected $dates = [
         'expired_at',
+        'notified_at',
     ];
 
     /**
@@ -44,6 +50,7 @@ class Dev extends Model
         'owner_skype_id',
         'owner_skype_username',
         'expired_at',
+        'notified_at',
         'comment',
     ];
 
@@ -78,6 +85,7 @@ class Dev extends Model
         $this->owner_skype_username = $ownerUsername;
         $this->expired_at = $expiredAt;
         $this->comment = $comment;
+        $this->notified_at = now();
 
         return $this->save();
     }
@@ -91,6 +99,17 @@ class Dev extends Model
         $this->owner_skype_username = null;
         $this->expired_at = null;
         $this->comment = null;
+        $this->notified_at = null;
+
+        return $this->save();
+    }
+
+    /**
+     * @return bool
+     */
+    public function notified()
+    {
+        $this->notified_at = now();
 
         return $this->save();
     }
