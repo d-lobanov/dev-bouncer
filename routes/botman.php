@@ -4,6 +4,7 @@ use App\Http\Middleware\Bot\TrimMessage;
 use App\Http\Controllers\BotManController;
 use App\Http\Middleware\Bot\RemoveBotNickname;
 use BotMan\BotMan\BotMan;
+use Illuminate\Support\Carbon;
 
 /** @var BotMan $botman */
 $botman = resolve('botman');
@@ -18,9 +19,18 @@ $botman->hears('occupy|lock|take', BotManController::class . '@occupy');
 $botman->hears('status', BotManController::class . '@status');
 $botman->hears('release|unlock|give', BotManController::class . '@release');
 
-$botman->hears('test_change {name} {minutes}', function (BotMan $bot, $name, $minutes) {
-    \App\Dev::whereName($name)->first()->occupy($bot->getUser()->getId(), $bot->getUser()->getUsername(),
-        now()->addMinutes((int)$minutes), null);
+$botman->hears('test_change {name} {eMinutes} {nMinutes}', function (BotMan $bot, $name, $eMinutes, $nMinutes) {
+    $dev = \App\Dev::whereName($name)->first();
+
+    $dev->occupy(
+        $bot->getUser()->getId(),
+        $bot->getUser()->getUsername(),
+        now()->addMinutes((int)$eMinutes),
+        null
+    );
+
+    $dev->notified_at = now()->subMinute((int)$nMinutes);
+    $dev->save();
 
     $bot->reply('ok');
 });
