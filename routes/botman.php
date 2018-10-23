@@ -19,7 +19,8 @@ $botman->hears('status', BotManController::class . '@status');
 $botman->hears('release|unlock|give', BotManController::class . '@release');
 
 $botman->hears('test_change {name} {minutes}', function (BotMan $bot, $name, $minutes) {
-    \App\Dev::whereName($name)->first()->occupy($bot->getUser()->getId(), $bot->getUser()->getId(), now()->addMinutes($minutes), null);
+    \App\Dev::whereName($name)->first()->occupy($bot->getUser()->getId(), $bot->getUser()->getUsername(),
+        now()->addMinutes((int)$minutes), null);
 
     $bot->reply('ok');
 });
