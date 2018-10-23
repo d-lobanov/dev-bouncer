@@ -19,4 +19,4 @@ touch storage/database.sqlite
 chmod 0777 storage/database.sqlite
 docker exec -it bouncer.php php artisan migrate
 
-printf "\e[33mAttention:\e[0m change MICROSOFT_APP_ID and MICROSOFT_APP_KEY in .env\n"
+printf "\n\n\e[33mAttention:\e[0m change MICROSOFT_APP_ID and MICROSOFT_APP_KEY in .env\n\n"
