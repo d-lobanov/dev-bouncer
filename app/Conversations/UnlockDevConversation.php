@@ -4,6 +4,7 @@ namespace App\Conversations;
 
 use App\Dev;
 use App\Facades\DevBouncer;
+use App\Services\ButtonFactory;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
@@ -12,6 +13,8 @@ use Illuminate\Support\Collection;
 
 class UnlockDevConversation extends Conversation
 {
+    use CanBeCanceledTrait;
+
     /**
      * @param Collection $devs
      * @return UnlockDevConversation
@@ -25,7 +28,8 @@ class UnlockDevConversation extends Conversation
         $question = Question::create('Which one?')
             ->fallback('Unable to ask question')
             ->callbackId('ask_release_dev_name')
-            ->addButtons($buttons->toArray());
+            ->addButtons($buttons->toArray())
+            ->addButton(ButtonFactory::cancel());
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {

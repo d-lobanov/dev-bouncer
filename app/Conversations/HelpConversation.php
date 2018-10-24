@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\Services\ButtonFactory;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
@@ -9,6 +10,8 @@ use BotMan\BotMan\Messages\Outgoing\Question;
 
 class HelpConversation extends Conversation
 {
+    use CanBeCanceledTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -30,7 +33,7 @@ class HelpConversation extends Conversation
                 Button::create('show statuses')->value('status'),
                 Button::create('reserve dev')->value('reserve'),
                 Button::create('unlock dev')->value('unlock'),
-                Button::create('cancel')->value('cancel'),
+                ButtonFactory::cancel(),
             ]);
 
         return $this->ask($question, function (Answer $answer) {

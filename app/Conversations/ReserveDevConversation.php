@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Log;
 
 class ReserveDevConversation extends Conversation
 {
-    const DEFAULT_INTERVALS = ['2h', '4h', '8h', '2d', '4d'];
+    use CanBeCanceledTrait;
+
+    const DEFAULT_INTERVALS = ['2h', '4h', '8h', '2d'];
 
     /**
      * @var int. ID of dev
@@ -96,6 +98,7 @@ class ReserveDevConversation extends Conversation
                 $this->say('Dev was occupied (key)');
             } catch (\Exception $e) {
                 Log::alert($e->getMessage());
+
                 $this->say('Sorry, error occurred. Try again. (brokenheart)');
             }
         });

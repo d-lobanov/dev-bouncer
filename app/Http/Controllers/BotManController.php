@@ -6,7 +6,6 @@ use App\Conversations\HelpConversation;
 use App\Conversations\ReserveDevConversation;
 use App\Conversations\StatusConversation;
 use App\Conversations\UnlockDevConversation;
-use App\Dev;
 use App\Services\SkypeMessageFormatter as Formatter;
 use BotMan\BotMan\BotMan;
 use Illuminate\Contracts\View\Factory;
