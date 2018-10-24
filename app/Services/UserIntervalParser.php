@@ -20,6 +20,19 @@ class UserIntervalParser
      */
     public function parse(string $userInput): ?int
     {
+        if ($userInput === 'till tomorrow') {
+            return now()->addDay()->setTime(0, 0, 0)->timestamp;
+        }
+
+        return $this->parseDaysAndTime($userInput);
+    }
+
+    /**
+     * @param string $userInput
+     * @return int|null
+     */
+    private function parseDaysAndTime(string $userInput): ?int
+    {
         $days = self::parseDays($userInput);
         $hours = self::parseHours($userInput);
 
@@ -27,11 +40,13 @@ class UserIntervalParser
             return null;
         }
 
-        if ($days > 8 || $hours > 23) {
+        $hours = ($days ?? 0) * Carbon::HOURS_PER_DAY + ($hours ?? 0);
+
+        if ($hours > Carbon::HOURS_PER_DAY * 2) {
             return null;
         }
 
-        return Carbon::now()->addDays($days ?? 0)->addHours($hours ?? 0)->timestamp;
+        return now()->addHours($hours)->timestamp;
     }
 
     /**

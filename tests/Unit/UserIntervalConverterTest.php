@@ -15,7 +15,7 @@ class UserIntervalConverterTest extends TestCase
         $this->assertNull($service->parse(''));
     }
 
-    public function testInvalidInput()
+    public function testParseWithInvalidInput()
     {
         $service = new UserIntervalParser();
 
@@ -23,7 +23,7 @@ class UserIntervalConverterTest extends TestCase
         $this->assertNull($service->parse('2m 2s'));
     }
 
-    public function testZeroValue()
+    public function testParseWithZeroValue()
     {
         $service = new UserIntervalParser();
 
@@ -34,43 +34,47 @@ class UserIntervalConverterTest extends TestCase
         $this->assertNotNull($service->parse('0d 1h'));
     }
 
-    public function testDaysLimit()
+    public function testParseWithDaysLimit()
     {
         $service = new UserIntervalParser();
 
-        $this->assertNull($service->parse('9d'));
-        $this->assertNull($service->parse('10d 2h'));
-        $this->assertNotNull($service->parse('8d'));
+        $this->assertNull($service->parse('3d'));
+        $this->assertNull($service->parse('3d 2h'));
+        $this->assertNotNull($service->parse('2d'));
     }
 
-    public function testHoursLimit()
+    public function testParseWithHoursLimit()
     {
         $service = new UserIntervalParser();
 
-        $this->assertNull($service->parse('24h'));
-        $this->assertNull($service->parse('1d 24h'));
         $this->assertNotNull($service->parse('23h'));
+        $this->assertNotNull($service->parse('30h'));
+
+        $this->assertNull($service->parse('50h'));
     }
 
-    public function testValidValue()
+    public function testParseWithValidValue()
     {
         $service = new UserIntervalParser();
 
         $now = now();
         Carbon::setTestNow($now->copy());
 
-        $expected = $now->copy()->addDays(2)->addHours(2)->timestamp;
-        $this->assertEquals($expected, $service->parse('2d 2h'));
-        $this->assertEquals($expected, $service->parse('2h 2d'));
+        $expected = $now->copy()->addDays(1)->addHours(2)->timestamp;
+        $this->assertEquals($expected, $service->parse('1d 2h'));
+        $this->assertEquals($expected, $service->parse('2h 1d'));
 
-        $expected = $now->copy()->addDays(8)->addHours(23)->timestamp;
-        $this->assertEquals($expected, $service->parse('8d 23h'));
+        $expected = $now->copy()->addDays(0)->addHours(23)->timestamp;
+        $this->assertEquals($expected, $service->parse('0d 23h'));
 
         $expected = $now->copy()->addDays(1)->timestamp;
         $this->assertEquals($expected, $service->parse('1d'));
 
         $expected = $now->copy()->addHours(1)->timestamp;
         $this->assertEquals($expected, $service->parse('1h'));
+
+        $time = $now->copy()->addDay()->setTime(0, 0, 0)->timestamp;
+        $this->assertEquals($time, $service->parse('till tomorrow'));
 
         Carbon::setTestNow();
     }
