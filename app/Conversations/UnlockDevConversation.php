@@ -13,8 +13,6 @@ use Illuminate\Support\Collection;
 
 class UnlockDevConversation extends Conversation
 {
-    use CanBeCanceledTrait;
-
     /**
      * @param Collection $devs
      * @return UnlockDevConversation

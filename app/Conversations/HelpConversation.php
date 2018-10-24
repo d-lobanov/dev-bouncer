@@ -10,8 +10,6 @@ use BotMan\BotMan\Messages\Outgoing\Question;
 
 class HelpConversation extends Conversation
 {
-    use CanBeCanceledTrait;
-
     /**
      * {@inheritdoc}
      */

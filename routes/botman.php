@@ -21,7 +21,7 @@ $botman->hears('stop|cancel', function (BotMan $bot) {
     $bot->reply('stopped');
 })->stopsConversation();
 
-$botman->hears(ButtonFactory::CANCEL_VALUE, function (BotMan $bot) {
+$botman->hears(".*" . ButtonFactory::CANCEL_VALUE . ".*", function (BotMan $bot) {
     $bot->reply('canceled');
 })->stopsConversation();
 

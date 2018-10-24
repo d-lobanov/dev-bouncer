@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Log;
 
 class ReserveDevConversation extends Conversation
 {
-    use CanBeCanceledTrait;
-
     const DEFAULT_INTERVALS = ['2h', '4h', '8h', '2d'];
 
     /**
