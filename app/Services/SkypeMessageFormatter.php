@@ -41,7 +41,7 @@ class SkypeMessageFormatter
      *
      * @return string
      */
-    public function formatDateDiff(Carbon $datetime): string
+    private function formatDateDiff(Carbon $datetime): string
     {
         $parts = $datetime->diffInHours() < 1 ? 1 : 2;
 
