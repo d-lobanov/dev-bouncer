@@ -5,6 +5,7 @@ namespace App\Conversations;
 use App\Dev;
 use App\Facades\DevBouncer;
 use App\Facades\UserInterval;
+use App\Services\ButtonFactory;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
@@ -12,7 +13,7 @@ use BotMan\BotMan\Messages\Outgoing\Question;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
-class OccupyDevConversation extends Conversation
+class ReserveDevConversation extends Conversation
 {
     const DEFAULT_INTERVALS = ['2h', '4h', '8h', '2d', '4d'];
 
@@ -28,7 +29,7 @@ class OccupyDevConversation extends Conversation
 
     /**
      * @param Collection $devs
-     * @return OccupyDevConversation
+     * @return ReserveDevConversation
      */
     protected function askDevName(Collection $devs)
     {
@@ -39,7 +40,8 @@ class OccupyDevConversation extends Conversation
         $question = Question::create('Which one?')
             ->fallback('Unable to ask question')
             ->callbackId('ask_occupy_dev_name')
-            ->addButtons($buttons->toArray());
+            ->addButtons($buttons->toArray())
+            ->addButton(ButtonFactory::cancel());
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
@@ -53,7 +55,7 @@ class OccupyDevConversation extends Conversation
     }
 
     /**
-     * @return OccupyDevConversation
+     * @return ReserveDevConversation
      */
     protected function askInterval()
     {
@@ -64,7 +66,8 @@ class OccupyDevConversation extends Conversation
         $question = Question::create('For how long?')
             ->fallback('Unable to ask question')
             ->callbackId('ask_occupy_dev_time')
-            ->addButtons($buttons->toArray());
+            ->addButtons($buttons->toArray())
+            ->addButton(ButtonFactory::cancel());
 
         return $this->ask($question, function (Answer $answer) {
             $time = UserInterval::parse($answer->getText());
@@ -82,15 +85,11 @@ class OccupyDevConversation extends Conversation
     }
 
     /**
-     * @return OccupyDevConversation
+     * @return ReserveDevConversation
      */
     protected function askComment()
     {
-        $question = Question::create('Comment?')
-            ->fallback('Unable to ask question')
-            ->callbackId('ask_occupy_dev_comment');
-
-        return $this->ask($question, function (Answer $answer) {
+        return $this->ask('Comment?', function (Answer $answer) {
             try {
                 DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 

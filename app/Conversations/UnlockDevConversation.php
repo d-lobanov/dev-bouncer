@@ -10,11 +10,11 @@ use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
 use Illuminate\Support\Collection;
 
-class ReleaseDevConversation extends Conversation
+class UnlockDevConversation extends Conversation
 {
     /**
      * @param Collection $devs
-     * @return ReleaseDevConversation
+     * @return UnlockDevConversation
      */
     protected function askDevName(Collection $devs)
     {

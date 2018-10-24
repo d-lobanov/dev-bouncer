@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Conversations\OccupyDevConversation;
-use App\Conversations\ReleaseDevConversation;
+use App\Conversations\HelpConversation;
+use App\Conversations\ReserveDevConversation;
+use App\Conversations\StatusConversation;
+use App\Conversations\UnlockDevConversation;
 use App\Dev;
 use App\Services\SkypeMessageFormatter as Formatter;
 use BotMan\BotMan\BotMan;
@@ -44,17 +46,19 @@ class BotManController extends Controller
     /**
      * @param BotMan $bot
      */
-    public function occupy(BotMan $bot): void
+    public function ping(BotMan $bot)
     {
-        $bot->startConversation(new OccupyDevConversation());
+        $message = $bot->getMessage()->getText();
+
+        $bot->reply($message === 'ping' ? 'pong' : $message);
     }
 
     /**
      * @param BotMan $bot
      */
-    public function release(BotMan $bot): void
+    public function help(BotMan $bot)
     {
-        $bot->startConversation(new ReleaseDevConversation());
+        $bot->startConversation(new HelpConversation());
     }
 
     /**
@@ -62,8 +66,23 @@ class BotManController extends Controller
      */
     public function status(BotMan $bot): void
     {
-        $message = Dev::all()->map([$this->formatter, 'devStatus'])->implode(Formatter::SKYPE_NEW_LINE);
-
-        $bot->reply($message);
+        $bot->startConversation(new StatusConversation());
     }
+
+    /**
+     * @param BotMan $bot
+     */
+    public function reserve(BotMan $bot): void
+    {
+        $bot->startConversation(new ReserveDevConversation());
+    }
+
+    /**
+     * @param BotMan $bot
+     */
+    public function unlock(BotMan $bot): void
+    {
+        $bot->startConversation(new UnlockDevConversation());
+    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\DevBouncer;
 use App\Services\SkypeBotMan;
+use App\Services\SkypeMessageFormatter;
 use App\Services\UserIntervalParser;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Foundation\Application;
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public $bindings = [
         'dev_bouncer' => DevBouncer::class,
+        'skype_formatter' => SkypeMessageFormatter::class,
         'user_interval_converter' => UserIntervalParser::class,
     ];
 
