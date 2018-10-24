@@ -45,6 +45,12 @@ class SkypeMessageFormatter
     {
         $parts = $datetime->diffInHours() < 1 ? 1 : 2;
 
+        $isEndOfDay = $datetime->copy()->modify('23.59.59')->eq($datetime);
+        if ($datetime->isToday() && $isEndOfDay) {
+            return 'till tomorrow';
+        }
+
         return $datetime->diffForHumans(null, true, true, $parts);
     }
+
 }

@@ -21,7 +21,7 @@ class UserIntervalParser
     public function parse(string $userInput): ?int
     {
         if ($userInput === 'till tomorrow') {
-            return now()->addDay()->setTime(0, 0, 0)->timestamp;
+            return now()->endOfDay()->timestamp;
         }
 
         return $this->parseDaysAndTime($userInput);

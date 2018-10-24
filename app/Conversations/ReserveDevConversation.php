@@ -70,7 +70,8 @@ class ReserveDevConversation extends Conversation
             ->addButton(ButtonFactory::cancel());
 
         return $this->ask($question, function (Answer $answer) {
-            $time = UserInterval::parse($answer->getText());
+            $message = $answer->getValue() ?? $answer->getText();
+            $time = UserInterval::parse($message);
 
             if ($time) {
                 $this->expiredAt = $time;
