@@ -33,7 +33,7 @@ class SkypeMessageFormatter
         $time = $this->formatDateDiff($dev->expired_at);
         $comment = $dev->comment ? "\"{$dev->comment}\"" : '';
 
-        return "$name – {$dev->owner_skype_username} for {$time} {$comment}";
+        return "$name – {$dev->owner_skype_username} {$time} {$comment}";
     }
 
     /**
@@ -50,7 +50,7 @@ class SkypeMessageFormatter
             return 'till tomorrow';
         }
 
-        return $datetime->diffForHumans(null, true, true, $parts);
+        return 'for ' . $datetime->diffForHumans(null, true, true, $parts);
     }
 
 }
