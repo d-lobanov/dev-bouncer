@@ -20,6 +20,12 @@ class BotHandler extends ExceptionHandler
             return;
         }
 
-        return parent::handleException($e, $bot);
+        try {
+            parent::handleException($e, $bot);
+        } catch (\Exception $e) {
+            $bot->reply('Oops, server error');
+
+            throw $e;
+        }
     }
 }
