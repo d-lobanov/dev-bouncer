@@ -5,14 +5,14 @@ namespace App\Exceptions;
 use Exception;
 use Throwable;
 
-class DevIsOccupiedException extends Exception
+class DevIsReservedException extends Exception
 {
     /**
      * {@inheritdoc}
      */
     public function __construct(string $name, int $code = 0, Throwable $previous = null)
     {
-        $message = sprintf('Dev \'%s\' have been already occupied', $name);
+        $message = sprintf('Dev \'%s\' have already been reserved', $name);
 
         parent::__construct($message, $code, $previous);
     }

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Dev;
-use App\Exceptions\DevIsOccupiedException;
+use App\Exceptions\DevIsReservedException;
 use App\Exceptions\DevNotFoundException;
 use BotMan\BotMan\Interfaces\UserInterface;
 use Carbon\Carbon;
@@ -18,7 +18,7 @@ class DevBouncer
      *
      * @return bool
      *
-     * @throws DevIsOccupiedException|DevNotFoundException
+     * @throws DevIsReservedException|DevNotFoundException
      */
     public function reserve(int $id, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
@@ -29,7 +29,7 @@ class DevBouncer
         }
 
         if ($dev->isReserved()) {
-            throw new DevIsOccupiedException($id);
+            throw new DevIsReservedException($id);
         }
 
         $username = $owner->getUsername() ?? $owner->getId();

@@ -48,20 +48,20 @@ class CheckExpiringDevs extends Command
      */
     public function handle(): void
     {
-        $this->notifyAndReleaseExpired();
+        $this->notifyAndUnlockExpired();
         $this->notify(15);
         $this->notify(60);
     }
 
     /**
-     * Notify user that dev has been expired and release dev.
+     * Notify user that dev has been expired and unlock dev.
      */
-    private function notifyAndReleaseExpired(): void
+    private function notifyAndUnlockExpired(): void
     {
         $devs = Dev::where('expired_at', '<', now())->get();
 
         $devs->each(function (Dev $dev) {
-            $message = "{$dev->owner_skype_username} #{$dev->name} has been expired and released";
+            $message = "{$dev->owner_skype_username} #{$dev->name} has been expired and unlocked";
             $this->skype->say($message, $dev->owner_skype_id);
 
             $dev->unlock();
