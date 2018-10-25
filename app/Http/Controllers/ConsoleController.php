@@ -23,6 +23,7 @@ class ConsoleController extends Controller
 
         if (!$expiredAt) {
             $bot->reply('You should provide valid time: example \'2h\'');
+
             return;
         }
 
@@ -55,9 +56,8 @@ class ConsoleController extends Controller
     /**
      * @param BotMan $bot
      */
-    public function stop(BotMan $bot)
+    public function cancel(BotMan $bot)
     {
-        $bot->reply('stopped');
+        $bot->reply('canceled');
     }
-
 }

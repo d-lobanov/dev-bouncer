@@ -5,6 +5,7 @@ use App\Http\Controllers\ConsoleController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Middleware\Bot\RemoveBotNickname;
 use App\Http\Middleware\Bot\TrimMessage;
+use App\Services\ButtonFactory;
 use BotMan\BotMan\BotMan;
 
 /** @var BotMan $botman */
@@ -19,9 +20,11 @@ $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
 $botman->hears('ping', ConsoleController::class . '@ping');
-$botman->hears('stop|cancel', ConsoleController::class . '@stop')->stopsConversation();
 $botman->hears('reserve {name} {time} {comment}', ConsoleController::class . '@reserve');
 $botman->hears('unlock {name}', ConsoleController::class . '@unlock');
+
+$botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
+$botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();
 
 $botman->fallback(function (BotMan $bot) {
     $bot->reply('Sorry, I did not understand these commands.');

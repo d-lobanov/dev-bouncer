@@ -6,7 +6,7 @@ use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 
 class ButtonFactory
 {
-    const CANCEL_VALUE = '~cancel~';
+    const CANCEL_VALUE = '~@cancel@~';
 
     /**
      * @return Button
