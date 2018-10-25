@@ -12,7 +12,7 @@ class DevIsReservedException extends Exception implements UserVisible
      */
     public function __construct(string $name, int $code = 0, Throwable $previous = null)
     {
-        $message = sprintf('Dev \'%s\' have already been reserved', $name);
+        $message = "Dev #$name have already been reserved";
 
         parent::__construct($message, $code, $previous);
     }

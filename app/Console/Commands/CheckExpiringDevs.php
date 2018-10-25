@@ -61,7 +61,7 @@ class CheckExpiringDevs extends Command
         $devs = Dev::where('expired_at', '<', now())->get();
 
         $devs->each(function (Dev $dev) {
-            $message = "{$dev->owner_skype_username} #{$dev->name} has been expired and unlocked";
+            $message = "(bomb) {$dev->owner_skype_username} #{$dev->name} has been expired and unlocked";
             $this->skype->say($message, $dev->owner_skype_id);
 
             $dev->unlock();
