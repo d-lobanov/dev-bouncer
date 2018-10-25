@@ -6,10 +6,9 @@ services:
     container_name: prod.nginx
     ports:
       - 80
-      - 443
     volumes:
       - ./:/var/www/bot
-      - ./nginx-prod.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
 
