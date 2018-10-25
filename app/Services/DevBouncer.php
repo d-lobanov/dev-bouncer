@@ -11,7 +11,22 @@ use Carbon\Carbon;
 class DevBouncer
 {
     /**
-     * @param int $id
+     * @param string $name
+     * @return bool
+     * @throws DevNotFoundException
+     */
+    public function unlockByName(string $name): bool
+    {
+        /** @var Dev $dev */
+        if ($dev = Dev::whereName($name)->get()) {
+            return $dev->unlock();
+        }
+
+        throw new DevNotFoundException($name);
+    }
+
+    /**
+     * @param string $name
      * @param UserInterface $owner
      * @param int $expiredAt
      * @param null|string $comment
@@ -20,16 +35,28 @@ class DevBouncer
      *
      * @throws DevIsReservedException|DevNotFoundException
      */
-    public function reserve(int $id, UserInterface $owner, int $expiredAt, ?string $comment): bool
+    public function reserveByName(string $name, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
-        $dev = Dev::find($id);
-
-        if (!$dev) {
-            throw new DevNotFoundException($id);
+        /** @var Dev $dev */
+        if ($dev = Dev::whereName($name)->first()) {
+            return $this->reserve($dev, $owner, $expiredAt, $comment);
         }
 
+        throw new DevNotFoundException($name);
+    }
+
+    /**
+     * @param Dev $dev
+     * @param UserInterface $owner
+     * @param int $expiredAt
+     * @param null|string $comment
+     * @return bool
+     * @throws DevIsReservedException
+     */
+    private function reserve(Dev $dev, UserInterface $owner, int $expiredAt, ?string $comment)
+    {
         if ($dev->isReserved()) {
-            throw new DevIsReservedException($id);
+            throw new DevIsReservedException($dev->name);
         }
 
         $username = $owner->getUsername() ?? $owner->getId();
@@ -38,23 +65,4 @@ class DevBouncer
         return $dev->reserve($owner->getId(), $username, $time, $comment);
     }
 
-    /**
-     * @param int $id
-     * @return bool
-     * @throws DevNotFoundException
-     */
-    public function unlock(int $id): bool
-    {
-        $dev = Dev::find($id);
-
-        if (!$dev) {
-            throw new DevNotFoundException($id);
-        }
-
-        $dev->owner_skype_id = null;
-        $dev->expired_at = null;
-        $dev->comment = null;
-
-        return $dev->unlock();
-    }
 }

@@ -11,16 +11,15 @@ use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 class ReserveDevConversation extends Conversation
 {
     const DEFAULT_INTERVALS = ['2h', '4h', 'till tomorrow', '2d'];
 
     /**
-     * @var int. ID of dev
+     * @var int. Name of dev
      */
-    protected $devId;
+    protected $devName;
 
     /**
      * @var int. Time when dev is expired in minutes from now.
@@ -34,7 +33,7 @@ class ReserveDevConversation extends Conversation
     protected function askDevName(Collection $devs)
     {
         $buttons = $devs->map(function (Dev $dev) {
-            return Button::create($dev->name)->value($dev->id);
+            return Button::create($dev->name)->value($dev->name);
         });
 
         $question = Question::create('Which one?')
@@ -45,7 +44,7 @@ class ReserveDevConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
-                $this->devId = (int)$answer->getValue();
+                $this->devName = $answer->getValue();
 
                 $this->askInterval();
             } else {
@@ -91,15 +90,9 @@ class ReserveDevConversation extends Conversation
     protected function askComment()
     {
         return $this->ask('Comment?', function (Answer $answer) {
-            try {
-                DevBouncer::reserve($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getText());
+            DevBouncer::reserveByName($this->devName, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 
-                $this->say('Dev was reserved (key)');
-            } catch (\Exception $e) {
-                Log::alert($e->getMessage());
-
-                $this->say('Sorry, error occurred. Try again. (brokenheart)');
-            }
+            $this->say('Dev has been reserved (key)');
         });
     }
 

@@ -1,7 +1,8 @@
 <?php
 
-use App\Exceptions\BotResponsible;
-use App\Http\Controllers\BotManController;
+use App\Exceptions\BotHandler as ExceptionHandler;
+use App\Http\Controllers\ConsoleController;
+use App\Http\Controllers\ConversationsController;
 use App\Http\Middleware\Bot\RemoveBotNickname;
 use App\Http\Middleware\Bot\TrimMessage;
 use BotMan\BotMan\BotMan;
@@ -10,21 +11,18 @@ use BotMan\BotMan\BotMan;
 $botman = resolve('botman');
 
 $botman->middleware->received(new RemoveBotNickname(), new TrimMessage());
+$botman->setExceptionHandler(new ExceptionHandler());
 
-$botman->hears('help', BotManController::class . '@help');
-$botman->hears('status', BotManController::class . '@status');
-$botman->hears('reserve', BotManController::class . '@reserve');
-$botman->hears('unlock', BotManController::class . '@unlock');
-$botman->hears('hi|ping', BotManController::class . '@ping');
+$botman->hears('help', ConversationsController::class . '@help');
+$botman->hears('status', ConversationsController::class . '@status');
+$botman->hears('reserve', ConversationsController::class . '@reserve');
+$botman->hears('unlock', ConversationsController::class . '@unlock');
 
-$botman->hears('stop|cancel', function (BotMan $bot) {
-    $bot->reply('stopped');
-})->stopsConversation();
+$botman->hears('ping', ConsoleController::class . '@ping');
+$botman->hears('stop|cancel', ConsoleController::class . '@stop')->stopsConversation();
+$botman->hears('reserve {name} {time} {comment}', ConsoleController::class . '@reserve');
+$botman->hears('unlock {name}', ConsoleController::class . '@unlock');
 
 $botman->fallback(function (BotMan $bot) {
     $bot->reply('Sorry, I did not understand these commands.');
-});
-
-$botman->exception(BotResponsible::class, function (BotResponsible $e, BotMan $bot) {
-    $bot->reply($e->responseMessage());
 });

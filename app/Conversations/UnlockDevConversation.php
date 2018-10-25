@@ -20,7 +20,7 @@ class UnlockDevConversation extends Conversation
     protected function askDevName(Collection $devs)
     {
         $buttons = $devs->map(function (Dev $dev) {
-            return Button::create($dev->name)->value($dev->id);
+            return Button::create($dev->name)->value($dev->name);
         });
 
         $question = Question::create('Which one?')
@@ -31,9 +31,10 @@ class UnlockDevConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
-                DevBouncer::unlock($answer->getValue());
+                $name = $answer->getValue();
+                DevBouncer::unlockByName($name);
 
-                $this->say('Dev is unlocked');
+                $this->say("Dev $name is unlocked");
             } else {
                 $this->repeat();
             }

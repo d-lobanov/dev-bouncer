@@ -18,5 +18,4 @@ class StatusConversation extends Conversation
 
         $this->say($messages->implode(SkypeMessageFormatter::SKYPE_NEW_LINE));
     }
-
 }
