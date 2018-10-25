@@ -12,6 +12,8 @@ class UserIntervalParser
     const MINUTES_IN_HOUR = 60;
     const MINUTES_IN_DAY = 24 * 60;
 
+    const DEFAULT_TIMEZONE = 'Europe/Minsk';
+
     /**
      * Convert user input to timestamp.
      *
@@ -21,7 +23,7 @@ class UserIntervalParser
     public function parse(string $userInput): ?int
     {
         if ($userInput === 'till tomorrow') {
-            return now()->endOfDay()->timestamp;
+            return now()->setTimezone(self::DEFAULT_TIMEZONE)->endOfDay()->timestamp;
         }
 
         return $this->parseDaysAndTime($userInput);
