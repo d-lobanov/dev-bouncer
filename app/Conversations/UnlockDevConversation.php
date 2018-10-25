@@ -31,7 +31,7 @@ class UnlockDevConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
-                DevBouncer::release($answer->getValue());
+                DevBouncer::unlock($answer->getValue());
 
                 $this->say('Dev is no longer owned by you');
             } else {

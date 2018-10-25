@@ -28,9 +28,9 @@ class HelpConversation extends Conversation
             ->fallback('Unable to ask question')
             ->callbackId('help_show')
             ->addButtons([
-                Button::create('show statuses')->value('status'),
-                Button::create('reserve dev')->value('reserve'),
-                Button::create('unlock dev')->value('unlock'),
+                Button::create('statuses')->value('status'),
+                Button::create('reserve')->value('reserve'),
+                Button::create('unlock')->value('unlock'),
                 ButtonFactory::cancel(),
             ]);
 
