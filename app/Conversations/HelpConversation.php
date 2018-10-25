@@ -16,19 +16,19 @@ class HelpConversation extends Conversation
     public function run()
     {
         $this->say('Hi, I\'m here to help you with bot reservation');
-        $this->showHelp();
+        $this->show();
     }
 
     /**
      * @return HelpConversation
      */
-    protected function showHelp(): HelpConversation
+    protected function show(): HelpConversation
     {
         $question = Question::create('What do you like to do?')
             ->fallback('Unable to ask question')
             ->callbackId('help_show')
             ->addButtons([
-                Button::create('statuses')->value('status'),
+                Button::create('status')->value('status'),
                 Button::create('reserve')->value('reserve'),
                 Button::create('unlock')->value('unlock'),
                 ButtonFactory::cancel(),
