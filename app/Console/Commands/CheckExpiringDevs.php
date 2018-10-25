@@ -12,7 +12,7 @@ class CheckExpiringDevs extends Command
     /**
      * {@inheritdoc}
      */
-    protected $signature = 'dev-bot:check';
+    protected $signature = 'dev-bouncer:check';
 
     /**
      * The console command description.
@@ -64,7 +64,7 @@ class CheckExpiringDevs extends Command
             $message = "{$dev->owner_skype_username} #{$dev->name} has been expired and released";
             $this->skype->say($message, $dev->owner_skype_id);
 
-            $dev->release();
+            $dev->unlock();
         });
     }
 

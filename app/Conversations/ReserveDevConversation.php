@@ -39,7 +39,7 @@ class ReserveDevConversation extends Conversation
 
         $question = Question::create('Which one?')
             ->fallback('Unable to ask question')
-            ->callbackId('ask_occupy_dev_name')
+            ->callbackId('reserve_ask_dev_name')
             ->addButtons($buttons->toArray())
             ->addButton(ButtonFactory::cancel());
 
@@ -65,7 +65,7 @@ class ReserveDevConversation extends Conversation
 
         $question = Question::create('For how long?')
             ->fallback('Unable to ask question')
-            ->callbackId('ask_occupy_dev_time')
+            ->callbackId('reserve_ask_interval')
             ->addButtons($buttons->toArray())
             ->addButton(ButtonFactory::cancel());
 
@@ -92,9 +92,9 @@ class ReserveDevConversation extends Conversation
     {
         return $this->ask('Comment?', function (Answer $answer) {
             try {
-                DevBouncer::occupy($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getText());
+                DevBouncer::reserve($this->devId, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 
-                $this->say('Dev was occupied (key)');
+                $this->say('Dev was reserved (key)');
             } catch (\Exception $e) {
                 Log::alert($e->getMessage());
 
@@ -110,6 +110,6 @@ class ReserveDevConversation extends Conversation
     {
         $devs = Dev::allFree();
 
-        $devs->isEmpty() ? $this->say('All dev servers are occupied right now. Sorry :(') : $this->askDevName($devs);
+        $devs->isEmpty() ? $this->say('All dev servers are reserved right now. Sorry :(') : $this->askDevName($devs);
     }
 }

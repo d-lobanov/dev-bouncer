@@ -36,7 +36,7 @@ $botman->fallback(function (BotMan $bot) {
 $botman->hears('test_change {name} {eMinutes} {nMinutes}', function (BotMan $bot, $name, $eMinutes, $nMinutes) {
     $dev = \App\Dev::whereName($name)->first();
 
-    $dev->occupy(
+    $dev->reserve(
         $bot->getUser()->getId(),
         $bot->getUser()->getUsername(),
         now()->addMinutes((int)$eMinutes),

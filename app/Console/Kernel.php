@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('dev-bot:check')->everyMinute();
+        $schedule->command('dev-bouncer:check')->everyMinute();
     }
 
     /**

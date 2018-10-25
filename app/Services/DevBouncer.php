@@ -20,7 +20,7 @@ class DevBouncer
      *
      * @throws DevIsOccupiedException|DevNotFoundException
      */
-    public function occupy(int $id, UserInterface $owner, int $expiredAt, ?string $comment): bool
+    public function reserve(int $id, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
         $dev = Dev::find($id);
 
@@ -28,14 +28,14 @@ class DevBouncer
             throw new DevNotFoundException($id);
         }
 
-        if ($dev->isOccupied()) {
+        if ($dev->isReserved()) {
             throw new DevIsOccupiedException($id);
         }
 
         $username = $owner->getUsername() ?? $owner->getId();
         $time = Carbon::createFromTimestamp($expiredAt);
 
-        return $dev->occupy($owner->getId(), $username, $time, $comment);
+        return $dev->reserve($owner->getId(), $username, $time, $comment);
     }
 
     /**
@@ -43,7 +43,7 @@ class DevBouncer
      * @return bool
      * @throws DevNotFoundException
      */
-    public function release(int $id): bool
+    public function unlock(int $id): bool
     {
         $dev = Dev::find($id);
 
@@ -55,6 +55,6 @@ class DevBouncer
         $dev->expired_at = null;
         $dev->comment = null;
 
-        return $dev->release();
+        return $dev->unlock();
     }
 }

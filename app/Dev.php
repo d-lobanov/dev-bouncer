@@ -67,7 +67,7 @@ class Dev extends Model
     /**
      * @return bool
      */
-    public function isOccupied(): bool
+    public function isReserved(): bool
     {
         return $this->expired_at && $this->expired_at > now();
     }
@@ -79,7 +79,7 @@ class Dev extends Model
      * @param string|null $comment
      * @return bool
      */
-    public function occupy(string $ownerId, string $ownerUsername, DateTime $expiredAt, ?string $comment = null)
+    public function reserve(string $ownerId, string $ownerUsername, DateTime $expiredAt, ?string $comment = null)
     {
         $this->owner_skype_id = $ownerId;
         $this->owner_skype_username = $ownerUsername;
@@ -93,7 +93,7 @@ class Dev extends Model
     /**
      * @return bool
      */
-    public function release()
+    public function unlock()
     {
         $this->owner_skype_id = null;
         $this->owner_skype_username = null;

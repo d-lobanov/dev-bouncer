@@ -26,7 +26,7 @@ class SkypeMessageFormatter
     {
         $name = $this->bold($dev->name);
 
-        if (!$dev->isOccupied()) {
+        if (!$dev->isReserved()) {
             return "$name – free";
         }
 
@@ -41,13 +41,13 @@ class SkypeMessageFormatter
      *
      * @return string
      */
-    private function formatDateDiff(Carbon $datetime): string
+    public function formatDateDiff(Carbon $datetime): string
     {
         $parts = $datetime->diffInHours() < 1 ? 1 : 2;
 
         $isEndOfDay = $datetime->copy()->modify('23.59.59')->eq($datetime);
         if ($datetime->isToday() && $isEndOfDay) {
-            return 'till tomorrow';
+            return 'tomorrow';
         }
 
         return 'for ' . $datetime->diffForHumans(null, true, true, $parts);
