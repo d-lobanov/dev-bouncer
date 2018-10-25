@@ -18,7 +18,7 @@ class DevBouncer
     public function unlockByName(string $name): bool
     {
         /** @var Dev $dev */
-        if ($dev = Dev::whereName($name)->get()) {
+        if ($dev = Dev::whereName($name)->first()) {
             return $dev->unlock();
         }
 

@@ -28,7 +28,7 @@ class ConsoleController extends Controller
         }
 
         DevBouncer::reserveByName($name, $bot->getUser(), $expiredAt, $comment);
-
+        $bot->reply("Dev $name has been reserved");
     }
 
     /**
