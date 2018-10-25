@@ -2,23 +2,19 @@ version: '3'
 
 services:
   nginx:
-    image: linuxserver/letsencrypt:latest
-    container_name: prod_bouncer.nginx
+    image: nginx:1.15
+    container_name: prod.nginx
     ports:
-      - '80'
-      - '443'
+      - 80
+      - 443
     volumes:
       - ./:/var/www/bot
-      - ./nginx.conf:/config/default.conf
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
-    environment:
-      URL: dzmitry.xyz
-      VALIDATION: http
-      EMAIL: dmitry.lobanow@gmail.com
 
   php:
     build: Dockerfile-prod
-    container_name: prod_bouncer.php
+    container_name: prod.php
     volumes:
       - ./:/var/www/bot
