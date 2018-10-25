@@ -110,6 +110,6 @@ class ReserveDevConversation extends Conversation
     {
         $devs = Dev::allFree();
 
-        $devs->isEmpty() ? $this->say('All dev servers are reserved right now. Sorry :(') : $this->askDevName($devs);
+        $devs->isEmpty() ? $this->say('All dev servers are reserved right now. Sorry :|') : $this->askDevName($devs);
     }
 }
