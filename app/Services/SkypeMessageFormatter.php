@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class SkypeMessageFormatter
 {
     const SKYPE_NEW_LINE = "\n\n";
+    const SKYPE_INVISIBLE_LINE = "‌‌‌‌ " . self::SKYPE_NEW_LINE;
 
     /**
      * @param string $text

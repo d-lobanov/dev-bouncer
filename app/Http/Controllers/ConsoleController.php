@@ -64,17 +64,24 @@ class ConsoleController extends Controller
     public function help(BotMan $bot)
     {
         $nl = SkypeMessageFormatter::SKYPE_NEW_LINE;
+        $il = SkypeMessageFormatter::SKYPE_INVISIBLE_LINE;
 
         $message =
-            '*menu* - show menu' . $nl . $nl .
-            '*reserve {name} {interval} [comment]*' . $nl .
-            '    name – name of dev' . $nl .
-            '    interval – min 1h max 2d' . $nl .
-            '    comment – jira link or comment' . $nl .
-            '    Example:' . $nl .
-            '    reserve dev20 2h BINGO-12345' . $nl . $nl .
-            '*unlock {name}*' . $nl .
-            '    {name} – name of dev. Example: dev20';
+            '_' . $nl .
+            'Show interactive menu' . $nl .
+            '**menu**' . $nl .
+            $il .
+            'Reserve dev' . $nl .
+            '**reserve** *{name} {interval} [comment]*' . $nl .
+            '*reserve dev20 2h BINGO-12345*' . $nl .
+            '  *{name}* name of dev' . $nl .
+            '  *{interval}* min 1h max 2d' . $nl .
+            '  *[comment]* optional, jira link or comment' . $nl .
+            $il .
+            'Unlock dev' . $nl .
+            '**unlock** *{name}*' . $nl .
+            '*unlock dev1*' . $nl .
+            '  *{name}* name of dev';
 
         $bot->reply($message);
     }
