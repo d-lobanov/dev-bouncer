@@ -70,15 +70,19 @@ class ConsoleController extends Controller
             'Show interactive menu' . $nl .
             '**menu**' . $nl .
             $il .
+            'Sow status of all devs' . $nl .
+            '**status**' . $nl .
+            $il .
             'Reserve dev' . $nl .
             '**reserve** *{name} {interval} [comment]*' . $nl .
-            '*reserve dev20 2h BINGO-12345*' . $nl .
+            'e.g: reserve dev20 2h BINGO-12345' . $nl .
             '  *{interval}* min 1h max 2d' . $nl .
             $il .
             'Unlock dev' . $nl .
             '**unlock** *{name}*' . $nl .
-            '*unlock dev1*';
+            'e.g: unlock dev1';
 
+        $bot->reply('List of commands:');
         $bot->reply($message);
     }
 }
