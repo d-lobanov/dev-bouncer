@@ -66,11 +66,13 @@ class ConsoleController extends Controller
         $nl = SkypeMessageFormatter::SKYPE_NEW_LINE;
 
         $message =
-            '**reserve** {name} {interval} {?comment}' . $nl .
-            '  {name} – name of dev' . $nl .
-            '  {interval} – interval' . $nl . $nl .
-            '**unlock** {name}' . $nl .
-            '  {name} – name of dev';
+            '*menu* - show menu' . $nl . $nl .
+            '*reserve {name} {interval} [comment]*' . $nl .
+            '    name – name of dev. Example: dev20' . $nl .
+            '    interval – how long to reserve, min 1h max 2d. Example: 2h' . $nl .
+            '    comment – optional, jira link or comment' . $nl . $nl .
+            '*unlock {name}*' . $nl .
+            '    {name} – name of dev. Example: dev20';
 
         $bot->reply($message);
     }
