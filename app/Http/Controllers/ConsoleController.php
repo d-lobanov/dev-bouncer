@@ -74,13 +74,13 @@ class ConsoleController extends Controller
             '**status**' . $nl .
             $il .
             'Reserve dev' . $nl .
+            'reserve dev20 2h BINGO-12345' . $nl .
             '**reserve** *{name} {interval} [comment]*' . $nl .
-            'e.g: reserve dev20 2h BINGO-12345' . $nl .
             '  *{interval}* min 1h max 2d' . $nl .
             $il .
             'Unlock dev' . $nl .
-            '**unlock** *{name}*' . $nl .
-            'e.g: unlock dev1';
+            'unlock dev1' . $nl .
+            '**unlock** *{name}*';
 
         $bot->reply('List of commands:');
         $bot->reply($message);
