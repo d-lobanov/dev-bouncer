@@ -20,8 +20,8 @@ $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
 $botman->hears('ping', ConsoleController::class . '@ping');
-$botman->hears('reserve {name} {time} {comment}', ConsoleController::class . '@reserve');
-$botman->hears('unlock {name}', ConsoleController::class . '@unlock');
+$botman->hears('reserve\s+(\w+)\s+(\w+)\s+([\w\s]*\w)?', ConsoleController::class . '@reserve');
+$botman->hears('unlock\s+(\w+)\s*', ConsoleController::class . '@unlock');
 
 $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
 $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();
