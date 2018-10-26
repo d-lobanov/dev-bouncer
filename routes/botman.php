@@ -20,7 +20,7 @@ $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
 $botman->hears('ping', ConsoleController::class . '@ping');
-$botman->hears('reserve (\w+) (\w+) \s*([\w+\s]+)?', ConsoleController::class . '@reserve');
+$botman->hears('reserve|lock (\w+) (\w+)(\s[\w+\s]+)?', ConsoleController::class . '@reserve');
 $botman->hears('unlock (\w+)', ConsoleController::class . '@unlock');
 
 $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
