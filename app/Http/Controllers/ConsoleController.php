@@ -67,21 +67,17 @@ class ConsoleController extends Controller
         $il = SkypeMessageFormatter::SKYPE_INVISIBLE_LINE;
 
         $message =
-            '_' . $nl .
             'Show interactive menu' . $nl .
             '**menu**' . $nl .
             $il .
             'Reserve dev' . $nl .
             '**reserve** *{name} {interval} [comment]*' . $nl .
             '*reserve dev20 2h BINGO-12345*' . $nl .
-            '  *{name}* name of dev' . $nl .
             '  *{interval}* min 1h max 2d' . $nl .
-            '  *[comment]* optional, jira link or comment' . $nl .
             $il .
             'Unlock dev' . $nl .
             '**unlock** *{name}*' . $nl .
-            '*unlock dev1*' . $nl .
-            '  *{name}* name of dev';
+            '*unlock dev1*';
 
         $bot->reply($message);
     }
