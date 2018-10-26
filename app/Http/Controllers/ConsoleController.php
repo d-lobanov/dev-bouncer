@@ -87,4 +87,12 @@ class ConsoleController extends Controller
         $bot->reply('List of commands:');
         $bot->reply($message);
     }
+
+    /**
+     * @param BotMan $bot
+     */
+    public function hi(BotMan $bot)
+    {
+        $bot->reply('Hi! If you need help just say **help**');
+    }
 }

@@ -26,6 +26,7 @@ $botman->hears('unlock (\w+)', ConsoleController::class . '@unlock');
 $botman->hears('u (\w+)', ConsoleController::class . '@unlock');
 $botman->hears('ping', ConsoleController::class . '@ping');
 $botman->hears('help', ConsoleController::class . '@help');
+$botman->hears('hi|hello', ConsoleController::class . '@hi');
 
 $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
 $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();
