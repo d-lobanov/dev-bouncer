@@ -12,7 +12,7 @@ class DevOwnException extends Exception implements UserVisible
      */
     public function __construct(?string $name = null, int $code = 0, Throwable $previous = null)
     {
-        $message = "Dev #$name doesn't belong current user";
+        $message = "#$name doesn't belong to current user";
 
         parent::__construct($message, $code, $previous);
     }

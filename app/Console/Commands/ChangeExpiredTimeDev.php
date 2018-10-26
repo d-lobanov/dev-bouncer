@@ -24,7 +24,7 @@ class ChangeExpiredTimeDev extends Command
         $dev = Dev::whereName($name)->first();
 
         if (!$dev) {
-            $this->output->error("Dev {$name} does not exist");
+            $this->output->error("{$name} does not exist");
 
             return;
         }

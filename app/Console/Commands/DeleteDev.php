@@ -26,11 +26,11 @@ class DeleteDev extends Command
 
         if ($dev = Dev::whereName($name)->first()) {
             $dev->delete();
-            $this->output->success("Dev {$name} has been deleted");
+            $this->output->success("#$name has been deleted");
 
             return;
         }
 
-        $this->output->error("Dev {$name} does not exist");
+        $this->output->error("#$name does not exist");
     }
 }

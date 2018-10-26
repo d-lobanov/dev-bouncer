@@ -22,12 +22,12 @@ class CreateDev extends Command
         $name = $this->argument('name');
 
         if (Dev::whereName($name)->exists()) {
-            $this->output->error("Dev {$name} already exists");
+            $this->output->error("#$name already exists");
 
             return;
         }
 
         Dev::create(['name' => $name]);
-        $this->output->success("Dev {$name} has been created");
+        $this->output->success("#$name has been created");
     }
 }

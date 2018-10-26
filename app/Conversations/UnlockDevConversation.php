@@ -36,7 +36,7 @@ class UnlockDevConversation extends Conversation
 
                 DevBouncer::unlockByNameAndOwnerId($name, $userId);
 
-                $this->say("(dropthemic) Dev #$name has been unlocked");
+                $this->say("(dropthemic) #$name has been unlocked");
             } else {
                 $this->repeat();
             }

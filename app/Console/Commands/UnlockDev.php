@@ -23,11 +23,11 @@ class UnlockDev extends Command
 
         if ($dev = Dev::whereName($name)->first()) {
             $dev->unlock();
-            $this->output->success("Dev {$name} has been unlocked");
+            $this->output->success("#$name has been unlocked");
 
             return;
         }
 
-        $this->output->error("Dev {$name} does not exist");
+        $this->output->error("#$name does not exist");
     }
 }

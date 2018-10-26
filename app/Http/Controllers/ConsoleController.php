@@ -28,7 +28,7 @@ class ConsoleController extends Controller
         }
 
         DevBouncer::reserveByName($name, $bot->getUser(), $expiredAt, $comment);
-        $bot->reply("(key) Dev #$name has been reserved");
+        $bot->reply("(key) #$name has been reserved");
     }
 
     /**
@@ -39,7 +39,7 @@ class ConsoleController extends Controller
     public function unlock(BotMan $bot, string $name): void
     {
         DevBouncer::unlockByNameAndOwnerId($name, $bot->getUser()->getId());
-        $bot->reply("(dropthemic) Dev #$name has been unlocked");
+        $bot->reply("(dropthemic) #$name has been unlocked");
     }
 
 

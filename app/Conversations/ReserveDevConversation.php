@@ -92,7 +92,7 @@ class ReserveDevConversation extends Conversation
         return $this->ask('Comment?', function (Answer $answer) {
             DevBouncer::reserveByName($this->devName, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 
-            $this->say("(key) Dev #$this->devName has been reserved");
+            $this->say("(key) #$this->devName has been reserved");
         });
     }
 
