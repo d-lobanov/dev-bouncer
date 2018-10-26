@@ -14,10 +14,10 @@ class ConsoleController extends Controller
      * @param BotMan $bot
      * @param string $name
      * @param string $time
-     * @param string $comment
+     * @param null|string $comment
      * @throws DevIsReservedException|DevNotFoundException
      */
-    public function reserve(BotMan $bot, string $name, string $time, string $comment): void
+    public function reserve(BotMan $bot, string $name, string $time, ?string $comment = null): void
     {
         $expiredAt = UserInterval::parse($time);
 
