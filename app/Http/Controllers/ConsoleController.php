@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DevIsReservedException;
-use App\Exceptions\DevNotFoundException;
 use App\Facades\DevBouncer;
 use App\Facades\UserInterval;
+use App\Services\SkypeMessageFormatter;
 use BotMan\BotMan\BotMan;
 
 class ConsoleController extends Controller
@@ -13,13 +12,12 @@ class ConsoleController extends Controller
     /**
      * @param BotMan $bot
      * @param string $name
-     * @param string $time
+     * @param string $interval
      * @param null|string $comment
-     * @throws DevIsReservedException|DevNotFoundException
      */
-    public function reserve(BotMan $bot, string $name, string $time, ?string $comment = null): void
+    public function reserve(BotMan $bot, string $name, string $interval, ?string $comment = null): void
     {
-        $expiredAt = UserInterval::parse($time);
+        $expiredAt = UserInterval::parse($interval);
 
         if (!$expiredAt) {
             $bot->reply('You should provide valid time: example \'2h\'');
@@ -27,14 +25,13 @@ class ConsoleController extends Controller
             return;
         }
 
-        DevBouncer::reserveByName($name, $bot->getUser(), $expiredAt, $comment);
+        DevBouncer::reserveByName($name, $bot->getUser(), $expiredAt, trim($comment ?? ''));
         $bot->reply("(key) #$name has been reserved");
     }
 
     /**
      * @param BotMan $bot
      * @param string $name
-     * @throws DevNotFoundException
      */
     public function unlock(BotMan $bot, string $name): void
     {
@@ -50,7 +47,7 @@ class ConsoleController extends Controller
     {
         $message = $bot->getMessage()->getText();
 
-        $bot->reply($message === 'ping' ? 'pong' : $message);
+        $bot->reply(strtolower($message) === 'ping' ? 'pong' : $message);
     }
 
     /**
@@ -59,5 +56,22 @@ class ConsoleController extends Controller
     public function cancel(BotMan $bot)
     {
         $bot->reply('canceled');
+    }
+
+    /**
+     * @param BotMan $bot
+     */
+    public function help(BotMan $bot)
+    {
+        $nl = SkypeMessageFormatter::SKYPE_NEW_LINE;
+
+        $message =
+            '**reserve** {name} {interval} {?comment}' . $nl .
+            '  {name} – name of dev' . $nl .
+            '  {interval} – interval' . $nl . $nl .
+            '**unlock** {name}' . $nl .
+            '  {name} – name of dev';
+
+        $bot->reply($message);
     }
 }

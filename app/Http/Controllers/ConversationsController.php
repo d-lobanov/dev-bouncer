@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Conversations\HelpConversation;
+use App\Conversations\MenuConversation;
 use App\Conversations\ReserveDevConversation;
 use App\Conversations\StatusConversation;
 use App\Conversations\UnlockDevConversation;
@@ -13,9 +13,9 @@ class ConversationsController extends Controller
     /**
      * @param BotMan $bot
      */
-    public function help(BotMan $bot)
+    public function menu(BotMan $bot)
     {
-        $bot->startConversation(new HelpConversation());
+        $bot->startConversation(new MenuConversation());
     }
 
     /**

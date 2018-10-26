@@ -47,5 +47,4 @@ class SkypeMessageFormatter
 
         return $datetime->diffForHumans(null, true, true, $parts);
     }
-
 }

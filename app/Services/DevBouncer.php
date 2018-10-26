@@ -72,5 +72,4 @@ class DevBouncer
 
         return $dev->reserve($owner->getId(), $username, $time, $comment);
     }
-
 }

@@ -14,14 +14,15 @@ $botman = resolve('botman');
 $botman->middleware->received(new RemoveBotNickname(), new TrimMessage());
 $botman->setExceptionHandler(new ExceptionHandler());
 
-$botman->hears('help', ConversationsController::class . '@help');
+$botman->hears('menu', ConversationsController::class . '@menu');
 $botman->hears('status', ConversationsController::class . '@status');
 $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
-$botman->hears('ping', ConsoleController::class . '@ping');
-$botman->hears('\b(?:reserve|lock)\b (\w+) (\w+)(\s[\w+\s]+)?', ConsoleController::class . '@reserve');
+$botman->hears('\b(?:reserve|lock)\b (\w+) (\w+)(\s+.*)?', ConsoleController::class . '@reserve');
 $botman->hears('unlock (\w+)', ConsoleController::class . '@unlock');
+$botman->hears('ping', ConsoleController::class . '@ping');
+$botman->hears('help', ConsoleController::class . '@help');
 
 $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
 $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();

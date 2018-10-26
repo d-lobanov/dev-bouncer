@@ -8,21 +8,20 @@ use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use BotMan\BotMan\Messages\Outgoing\Question;
 
-class HelpConversation extends Conversation
+class MenuConversation extends Conversation
 {
     /**
      * {@inheritdoc}
      */
     public function run()
     {
-        $this->say('Hi, I\'m here to help you with bot reservation');
         $this->show();
     }
 
     /**
-     * @return HelpConversation
+     * @return MenuConversation
      */
-    protected function show(): HelpConversation
+    protected function show(): MenuConversation
     {
         $question = Question::create('What do you like to do?')
             ->fallback('Unable to ask question')
