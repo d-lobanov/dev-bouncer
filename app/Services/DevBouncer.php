@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Dev;
 use App\Exceptions\DevIsReservedException;
 use App\Exceptions\DevNotFoundException;
+use App\Exceptions\DevOwnException;
 use BotMan\BotMan\Interfaces\UserInterface;
 use Carbon\Carbon;
 
@@ -12,17 +13,24 @@ class DevBouncer
 {
     /**
      * @param string $name
+     * @param string $ownerId
      * @return bool
-     * @throws DevNotFoundException
+     * @throws DevNotFoundException|DevOwnException
      */
-    public function unlockByName(string $name): bool
+    public function unlockByNameAndOwnerId(string $name, string $ownerId): bool
     {
         /** @var Dev $dev */
-        if ($dev = Dev::whereName($name)->first()) {
-            return $dev->unlock();
+        $dev = Dev::whereName($name)->first();
+
+        if (!$dev) {
+            throw new DevNotFoundException($name);
         }
 
-        throw new DevNotFoundException($name);
+        if ($dev->owner_skype_id !== $ownerId) {
+            throw new DevOwnException($name);
+        }
+
+        return $dev->unlock();
     }
 
     /**

@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Exceptions\DevNotFoundException;
-use App\Facades\DevBouncer;
+use App\Dev;
 use Illuminate\Console\Command;
 
 class UnlockDev extends Command
@@ -22,11 +21,13 @@ class UnlockDev extends Command
     {
         $name = $this->argument('name');
 
-        try {
-            DevBouncer::unlockByName($name);
+        if ($dev = Dev::whereName($name)->first()) {
+            $dev->unlock();
             $this->output->success("Dev {$name} has been unlocked");
-        } catch (DevNotFoundException $e) {
-            $this->output->error("Dev {$name} does not exist");
+
+            return;
         }
+
+        $this->output->error("Dev {$name} does not exist");
     }
 }

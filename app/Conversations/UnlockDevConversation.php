@@ -32,7 +32,9 @@ class UnlockDevConversation extends Conversation
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
                 $name = $answer->getValue();
-                DevBouncer::unlockByName($name);
+                $userId = $this->bot->getUser()->getId();
+
+                DevBouncer::unlockByNameAndOwnerId($name, $userId);
 
                 $this->say("(dropthemic) Dev #$name has been unlocked");
             } else {

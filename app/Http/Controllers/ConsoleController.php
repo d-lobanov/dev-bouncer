@@ -38,7 +38,7 @@ class ConsoleController extends Controller
      */
     public function unlock(BotMan $bot, string $name): void
     {
-        DevBouncer::unlockByName($name);
+        DevBouncer::unlockByNameAndOwnerId($name, $bot->getUser()->getId());
         $bot->reply("(dropthemic) Dev #$name has been unlocked");
     }
 
