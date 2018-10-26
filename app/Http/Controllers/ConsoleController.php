@@ -68,9 +68,11 @@ class ConsoleController extends Controller
         $message =
             '*menu* - show menu' . $nl . $nl .
             '*reserve {name} {interval} [comment]*' . $nl .
-            '    name – name of dev. Example: dev20' . $nl .
-            '    interval – how long to reserve, min 1h max 2d. Example: 2h' . $nl .
-            '    comment – optional, jira link or comment' . $nl . $nl .
+            '    name – name of dev' . $nl .
+            '    interval – min 1h max 2d' . $nl .
+            '    comment – jira link or comment' . $nl .
+            '    Example:' . $nl .
+            '    reserve dev20 2h BINGO-12345' . $nl . $nl .
             '*unlock {name}*' . $nl .
             '    {name} – name of dev. Example: dev20';
 
