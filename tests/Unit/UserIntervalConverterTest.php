@@ -69,6 +69,9 @@ class UserIntervalConverterTest extends TestCase
         $this->service->parse('3d');
     }
 
+    /**
+     * @throws \App\Exceptions\IntervalValidationException
+     */
     public function testParseValidInput()
     {
         $now = now();
