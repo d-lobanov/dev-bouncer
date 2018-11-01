@@ -15,15 +15,13 @@ $botman->middleware->received(new RemoveBotNickname(), new TrimMessage());
 $botman->setExceptionHandler(new ExceptionHandler());
 
 $botman->hears('menu', ConversationsController::class . '@menu');
-$botman->hears('status', ConversationsController::class . '@status');
-$botman->hears('s', ConversationsController::class . '@status');
+$botman->hears('\b(?:status|s)\b', ConversationsController::class . '@status');
 $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
-$botman->hears('\b(?:reserve|lock)\b (\w+) (\w+)(\s+.*)?', ConsoleController::class . '@reserve');
-$botman->hears('\b(?:r|l)\b (\w+) (\w+)(\s+.*)?', ConsoleController::class . '@reserve');
-$botman->hears('unlock (\w+)', ConsoleController::class . '@unlock');
-$botman->hears('u (\w+)', ConsoleController::class . '@unlock');
+$botman->hears('\b(?:reserve|lock|r|l)\b (\w+) (\w+)(\s+.*)?', ConsoleController::class . '@reserve');
+$botman->hears('\b(?:reserve|lock|r|l)\b (\w+) "([^"]+)"(\s+.*)?', ConsoleController::class . '@reserve');
+$botman->hears('\b(?:unlock|u)\b {name}', ConsoleController::class . '@unlock');
 $botman->hears('ping', ConsoleController::class . '@ping');
 $botman->hears('help', ConsoleController::class . '@help');
 $botman->hears('hi|hello', ConsoleController::class . '@hi');
