@@ -71,7 +71,7 @@ class ConsoleController extends Controller
             'Reserve dev' . $nl .
             '**reserve** *{name} {interval} [comment]*' . $nl .
             '  *{interval}* min 1h max 2d' . $nl .
-            '  *{interval}* min "1d 2h" max 2d' . $nl .
+            '  *{interval}* min 1d2h max 2d' . $nl .
             $il .
             'Unlock dev' . $nl .
             '**unlock** *{name}*' . $nl .

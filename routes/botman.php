@@ -20,7 +20,6 @@ $botman->hears('reserve', ConversationsController::class . '@reserve');
 $botman->hears('unlock', ConversationsController::class . '@unlock');
 
 $botman->hears('\b(?:reserve|lock|r|l)\b (\w+) (\w+)(\s+.*)?', ConsoleController::class . '@reserve');
-$botman->hears('\b(?:reserve|lock|r|l)\b (\w+) "([^"]+)"(\s+.*)?', ConsoleController::class . '@reserve');
 $botman->hears('\b(?:unlock|u)\b {name}', ConsoleController::class . '@unlock');
 $botman->hears('ping', ConsoleController::class . '@ping');
 $botman->hears('help', ConsoleController::class . '@help');

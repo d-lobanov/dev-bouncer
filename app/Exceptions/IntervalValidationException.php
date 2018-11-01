@@ -12,7 +12,7 @@ class IntervalValidationException extends Exception implements UserVisible
      */
     public static function invalidFormat(?string $message = null)
     {
-        return new self($message ?? "Invalid interval format. Should be for example: 4h");
+        return new self($message ?? "Invalid interval format. Should be for example: 4h or 1d2h");
     }
 
     /**

@@ -78,6 +78,7 @@ class UserIntervalConverterTest extends TestCase
         $this->assertEquals($expected, $this->service->parse('1d 2h'));
         $this->assertEquals($expected, $this->service->parse('2h 1d'));
         $this->assertEquals($expected, $this->service->parse('1h 1d 1h'));
+        $this->assertEquals($expected, $this->service->parse('1d2h'));
 
         $expected = $now->copy()->addDays(0)->addHours(23)->timestamp;
         $this->assertEquals($expected, $this->service->parse('0d 23h'));

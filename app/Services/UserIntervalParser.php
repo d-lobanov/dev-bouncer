@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class UserIntervalParser
 {
-    const REGEX = '/(?:(\d+)\s?(d|h))+/i';
+    const REGEX = '/(?:(\d+)\s?(d|h))/i';
 
     const HOURS_MIN_LIMIT = 1;
     const HOURS_MAX_LIMIT = 48;
