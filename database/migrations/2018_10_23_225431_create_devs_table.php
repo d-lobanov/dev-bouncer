@@ -1,14 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Dev;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDevsTable extends Migration
 {
-    const TABLE = 'devs';
-
     /**
      * Run the migrations.
      *
@@ -16,7 +14,7 @@ class CreateDevsTable extends Migration
      */
     public function up()
     {
-        Schema::create(self::TABLE, function (Blueprint $table) {
+        Schema::create(Dev::TABLE, function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('owner_skype_id')->nullable();
@@ -26,12 +24,6 @@ class CreateDevsTable extends Migration
             $table->text('comment')->nullable();
             $table->timestamps();
         });
-
-        DB::table(self::TABLE)->insert([
-            ['name' => 'dev1'],
-            ['name' => 'dev2'],
-            ['name' => 'dev3'],
-        ]);
     }
 
     /**
@@ -41,6 +33,6 @@ class CreateDevsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(self::TABLE);
+        Schema::dropIfExists(Dev::TABLE);
     }
 }

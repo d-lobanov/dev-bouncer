@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Dev extends Model
 {
+    const TABLE = 'devs';
+
     /**
      * {@inheritdoc}
      */
