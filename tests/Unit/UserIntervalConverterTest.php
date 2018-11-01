@@ -8,73 +8,88 @@ use Tests\TestCase;
 
 class UserIntervalConverterTest extends TestCase
 {
-    public function testEmptyInput()
-    {
-        $service = new UserIntervalParser();
+    /**
+     * @var UserIntervalParser
+     */
+    private $service;
 
-        $this->assertNull($service->parse(''));
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->service = new UserIntervalParser();
     }
 
-    public function testParseWithInvalidInput()
+    /**
+     * @dataProvider invalidInputDataProvider
+     * @expectedException \App\Exceptions\IntervalValidationException
+     * @param string $invalidData
+     */
+    public function testParseInvalidFormat(string $invalidData)
     {
-        $service = new UserIntervalParser();
-
-        $this->assertNull($service->parse('test'));
-        $this->assertNull($service->parse('2m 2s'));
+        $this->service->parse($invalidData);
     }
 
-    public function testParseWithZeroValue()
+    public function invalidInputDataProvider(): array
     {
-        $service = new UserIntervalParser();
-
-        $this->assertNull($service->parse('0d'));
-        $this->assertNull($service->parse('0h'));
-        $this->assertNull($service->parse('0d 0h'));
-
-        $this->assertNotNull($service->parse('0d 1h'));
+        return [
+            'empty' => [''],
+            'string' => ['test'],
+            'months' => ['12m'],
+            'minutes' => ['12i'],
+            'numbers' => ['1 2 3'],
+            'number' => ['123'],
+        ];
     }
 
-    public function testParseWithDaysLimit()
+    /**
+     * @expectedException \App\Exceptions\IntervalValidationException
+     */
+    public function testParseMinLimit()
     {
-        $service = new UserIntervalParser();
-
-        $this->assertNull($service->parse('3d'));
-        $this->assertNull($service->parse('3d 2h'));
-        $this->assertNotNull($service->parse('2d'));
+        $this->service->parse('0h');
     }
 
-    public function testParseWithHoursLimit()
+    /**
+     * @expectedException \App\Exceptions\IntervalValidationException
+     */
+    public function testParseHoursMaxLimit()
     {
-        $service = new UserIntervalParser();
-
-        $this->assertNotNull($service->parse('23h'));
-        $this->assertNotNull($service->parse('30h'));
-
-        $this->assertNull($service->parse('50h'));
+        $this->service->parse('49h');
     }
 
-    public function testParseWithValidValue()
+    /**
+     * @expectedException \App\Exceptions\IntervalValidationException
+     */
+    public function testParseDaysMaxLimit()
     {
-        $service = new UserIntervalParser();
+        $this->service->parse('3d');
+    }
 
+    public function testParseValidInput()
+    {
         $now = now();
         Carbon::setTestNow($now->copy());
 
         $expected = $now->copy()->addDays(1)->addHours(2)->timestamp;
-        $this->assertEquals($expected, $service->parse('1d 2h'));
-        $this->assertEquals($expected, $service->parse('2h 1d'));
+        $this->assertEquals($expected, $this->service->parse('1d 2h'));
+        $this->assertEquals($expected, $this->service->parse('2h 1d'));
+        $this->assertEquals($expected, $this->service->parse('1h 1d 1h'));
 
         $expected = $now->copy()->addDays(0)->addHours(23)->timestamp;
-        $this->assertEquals($expected, $service->parse('0d 23h'));
+        $this->assertEquals($expected, $this->service->parse('0d 23h'));
 
         $expected = $now->copy()->addDays(1)->timestamp;
-        $this->assertEquals($expected, $service->parse('1d'));
+        $this->assertEquals($expected, $this->service->parse('1d'));
 
         $expected = $now->copy()->addHours(1)->timestamp;
-        $this->assertEquals($expected, $service->parse('1h'));
+        $this->assertEquals($expected, $this->service->parse('1h'));
 
-        $time = $now->copy()->endOfDay()->timestamp;
-        $this->assertEquals($time, $service->parse('till tomorrow'));
+        $time = $now->copy()->setTimezone('Europe/Minsk')->endOfDay()->timestamp;
+        $this->assertEquals($time, $this->service->parse('till tomorrow'));
 
         Carbon::setTestNow();
     }

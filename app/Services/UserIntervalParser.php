@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
+use App\Exceptions\IntervalValidationException as ValidationException;
 use Carbon\Carbon;
 
 class UserIntervalParser
 {
-    const DAYS_REGEX = '/([1-9][0-9]*)\s?(d|D)/';
-    const HOURS_REGEX = '/([1-9][0-9]*)\s?(h|H)/';
+    const REGEX = '/(?:(\d+)\s?(d|h))+/i';
 
-    const MINUTES_IN_HOUR = 60;
-    const MINUTES_IN_DAY = 24 * 60;
+    const HOURS_MIN_LIMIT = 1;
+    const HOURS_MAX_LIMIT = 48;
 
     const DEFAULT_TIMEZONE = 'Europe/Minsk';
 
@@ -19,6 +19,7 @@ class UserIntervalParser
      *
      * @param string $userInput
      * @return int|null
+     * @throws ValidationException
      */
     public function parse(string $userInput): ?int
     {
@@ -26,27 +27,7 @@ class UserIntervalParser
             return now()->setTimezone(self::DEFAULT_TIMEZONE)->endOfDay()->timestamp;
         }
 
-        return $this->parseDaysAndTime($userInput);
-    }
-
-    /**
-     * @param string $userInput
-     * @return int|null
-     */
-    private function parseDaysAndTime(string $userInput): ?int
-    {
-        $days = self::parseDays($userInput);
-        $hours = self::parseHours($userInput);
-
-        if (!$days && !$hours) {
-            return null;
-        }
-
-        $hours = ($days ?? 0) * Carbon::HOURS_PER_DAY + ($hours ?? 0);
-
-        if ($hours > Carbon::HOURS_PER_DAY * 2) {
-            return null;
-        }
+        $hours = $this->parseHours($userInput);
 
         return now()->addHours($hours)->timestamp;
     }
@@ -54,26 +35,26 @@ class UserIntervalParser
     /**
      * @param string $userInput
      * @return int|null
-     */
-    private function parseDays(string $userInput): ?int
-    {
-        if (preg_match('/(\d+)\s?(d|D)/', $userInput, $matches)) {
-            return (int)$matches[1];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string $userInput
-     * @return int|null
+     * @throws ValidationException
      */
     private function parseHours(string $userInput): ?int
     {
-        if (preg_match('/(\d+)\s?(h|H)/', $userInput, $matches)) {
-            return (int)$matches[1];
+        if (!preg_match_all(self::REGEX, $userInput, $matches, PREG_SET_ORDER)) {
+            throw new ValidationException();
         }
 
-        return null;
+        $hours = 0;
+
+        foreach ($matches as [, $value, $type]) {
+            if ($value > 0) {
+                $hours += strtolower($type) === 'd' ? $value * Carbon::HOURS_PER_DAY : $value;
+            }
+        }
+
+        if ($hours < self::HOURS_MIN_LIMIT || self::HOURS_MAX_LIMIT < $hours) {
+            throw ValidationException::invalidRange(self::HOURS_MIN_LIMIT, self::HOURS_MAX_LIMIT);
+        }
+
+        return $hours;
     }
 }
