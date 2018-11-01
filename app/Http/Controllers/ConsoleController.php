@@ -75,7 +75,7 @@ class ConsoleController extends Controller
             'Unlock dev' . $nl .
             '**unlock** *{name}*' . $nl .
             $il .
-            'Examples:' . $nl .
+            '**Examples**:' . $nl .
             'reserve dev20 2h BINGO-12345' . $nl .
             'reserve dev20 1d2h BINGO-12345' . $nl .
             'unlock dev1';
