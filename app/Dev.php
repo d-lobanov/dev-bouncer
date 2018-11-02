@@ -114,5 +114,4 @@ class Dev extends Model
 
         return $this->save();
     }
-
 }

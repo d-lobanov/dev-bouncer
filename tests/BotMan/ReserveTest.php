@@ -8,9 +8,6 @@ use DevsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @covers \App\Http\Controllers\ConsoleController::reserve
- */
 class ReserveTest extends TestCase
 {
     use RefreshDatabase;

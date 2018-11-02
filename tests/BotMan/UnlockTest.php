@@ -7,9 +7,6 @@ use DevsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @covers \App\Http\Controllers\ConsoleController::unlock
- */
 class UnlockTest extends TestCase
 {
     use RefreshDatabase;

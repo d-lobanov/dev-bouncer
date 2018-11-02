@@ -7,9 +7,6 @@ use DevsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @covers \App\Http\Controllers\ConsoleController::status
- */
 class StatusTest extends TestCase
 {
     use RefreshDatabase;
