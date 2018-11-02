@@ -15,7 +15,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./storage:/var/www/bot/storage
+      - ./database.sqlite:/var/www/bot/storage/database.sqlite
+      - ./logs:/var/www/bot/storage/logs
 
 networks:
   default:
