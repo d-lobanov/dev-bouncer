@@ -20,3 +20,4 @@ services:
     environment:
       XDEBUG_CONFIG: "remote_host=192.168.168.1 remote_port=9002 remote_enable=On"
       PHP_IDE_CONFIG: "serverName=bouncer.local"
+      CODACY_PROJECT_TOKEN: "real_token_here"
