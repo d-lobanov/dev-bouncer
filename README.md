@@ -18,13 +18,3 @@ Coverage
 ```bash
 docker exec -it bouncer.php php vendor/bin/phpunit --coverage-clover build/coverage/xml
 ```
-
-## Docker useful commands
-Build images
-```bash
-docker image build --file=./Dockerfile-nginx-prod --tag=dmitrylobanow/bouncer_nginx .
-docker image build --file=./Dockerfile-php-prod --tag=dmitrylobanow/bouncer_php .
-
-docker push dmitrylobanow/bouncer_nginx
-docker push dmitrylobanow/bouncer_php
-```

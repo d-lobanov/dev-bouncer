@@ -30,16 +30,18 @@ class UnlockDevConversation extends Conversation
             ->addButton(ButtonFactory::cancel());
 
         return $this->ask($question, function (Answer $answer) {
-            if ($answer->isInteractiveMessageReply()) {
-                $name = $answer->getValue();
-                $userId = $this->bot->getUser()->getId();
-
-                DevBouncer::unlockByNameAndOwnerId($name, $userId);
-
-                $this->say("(dropthemic) #$name has been unlocked");
-            } else {
+            if (!$answer->isInteractiveMessageReply()) {
                 $this->repeat();
+
+                return;
             }
+
+            $name = $answer->getValue();
+            $userId = $this->bot->getUser()->getId();
+
+            DevBouncer::unlockByNameAndOwnerId($name, $userId);
+
+            $this->say("(dropthemic) #$name has been unlocked");
         });
     }
 
