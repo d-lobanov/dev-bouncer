@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-git pull
-
 # Build and run docker
 docker-compose down
 docker-compose -f docker-compose.prod.yml build
