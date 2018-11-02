@@ -4,8 +4,9 @@ php:
   - 7.2
 
 before_script:
-  - cp .env.travis .env
+  - cp .env.example .env
   - php composer.phar install --no-interaction
+  - php artisan key:generate
 
 script:
-  - vendor/bin/phpunit
+  -  vendor/bin/phpunit
