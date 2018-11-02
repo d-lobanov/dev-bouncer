@@ -28,4 +28,3 @@ docker image build --file=./docker/prod/Dockerfile-php --tag=dmitrylobanow/bounc
 docker push dmitrylobanow/bouncer_nginx
 docker push dmitrylobanow/bouncer_php
 ```
-
