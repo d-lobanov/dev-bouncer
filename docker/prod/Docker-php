@@ -21,4 +21,18 @@ RUN crontab /etc/cron.d/scheduler-cron
 RUN touch /var/log/cron.log
 # End
 
+ENV APP_ENV = prod
+
+# Copy project and generate key
+COPY . /var/www/bot
+COPY .env.example .env
+RUN php artisan key:generate
+
+# Change permissions
+RUN chmod -R 0777 bootstrap/cache
+RUN chmod -R 0777 storage
+
+# Install dependencies
+RUN php composer.phar install --no-ansi --no-dev --no-interaction --no-progress --optimize-autoloader
+
 CMD cron && php-fpm

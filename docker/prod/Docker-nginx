@@ -1,0 +1,9 @@
+FROM nginx:1.15
+
+WORKDIR /var/www/bot
+COPY docker/prod/nginx.conf /etc/nginx/conf.d/default.conf
+
+ENV VIRTUAL_HOST = dzmitry.xyz
+ENV LETSENCRYPT_HOST = dzmitry.xyz
+
+CMD ["nginx", "-g", "daemon off;"]

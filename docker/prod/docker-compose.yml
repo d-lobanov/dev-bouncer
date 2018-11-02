@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  nginx:
+    restart: always
+    image: dmitrylobanow/bouncer_nginx
+    container_name: prod.nginx
+    ports:
+      - 80:80
+    depends_on:
+      - php
+
+  php:
+    restart: always
+    image: dmitrylobanow/bouncer_php
+    container_name: prod.php
+    env_file:
+      - .env
+    volumes:
+      - ./storage:/var/www/bot/storage
+
+networks:
+  default:
+    external:
+      name: webproxy
