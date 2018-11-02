@@ -23,7 +23,7 @@ $botman->hears('\b(?:reserve|lock|r|l)\b (\w+) (\w+)(\s+.*)?', ConsoleController
 $botman->hears('\b(?:unlock|u)\b {name}', ConsoleController::class . '@unlock');
 $botman->hears('ping', ConsoleController::class . '@ping');
 $botman->hears('help', ConsoleController::class . '@help');
-$botman->hears('hi|hello', ConsoleController::class . '@hi');
+$botman->hears('hi|hello', ConsoleController::class . '@greeting');
 
 $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConversation();
 $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();

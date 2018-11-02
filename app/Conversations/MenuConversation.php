@@ -35,17 +35,19 @@ class MenuConversation extends Conversation
 
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
-                $this->processHelp($answer->getValue());
-            } else {
-                $this->repeat();
+                $this->process($answer->getValue());
+
+                return;
             }
+
+            $this->repeat();
         });
     }
 
     /**
      * @param string $answer
      */
-    protected function processHelp(string $answer)
+    protected function process(string $answer)
     {
         switch ($answer) {
             case 'status':

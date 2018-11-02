@@ -87,7 +87,7 @@ class ConsoleController extends Controller
     /**
      * @param BotMan $bot
      */
-    public function hi(BotMan $bot)
+    public function greeting(BotMan $bot)
     {
         $bot->reply('Hi! If you need help just say **help**');
     }

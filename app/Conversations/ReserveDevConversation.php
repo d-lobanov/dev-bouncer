@@ -45,11 +45,12 @@ class ReserveDevConversation extends Conversation
         return $this->ask($question, function (Answer $answer) {
             if ($answer->isInteractiveMessageReply()) {
                 $this->devName = $answer->getValue();
-
                 $this->askInterval();
-            } else {
-                $this->repeat();
+
+                return;
             }
+
+            $this->repeat();
         });
     }
 
