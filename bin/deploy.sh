@@ -6,7 +6,7 @@ docker-compose -f docker-compose.prod.yml build
 docker-compose -f docker-compose.prod.yml up -d
 
 # Composer install
-docker exec -it bouncer.php php composer.phar install
+docker exec -it bouncer.php php composer.phar install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 
 if [ ! -f .env ]; then
     # Init env
