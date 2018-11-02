@@ -14,7 +14,9 @@ services:
       LETSENCRYPT_HOST: dzmitry.xyz
 
   php:
-    build: Dockerfile-prod
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
     container_name: prod.php
     volumes:
       - ./:/var/www/bot
