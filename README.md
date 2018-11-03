@@ -1,5 +1,6 @@
 [![Build Status](https://semaphoreci.com/api/v1/d-lobanov/dev-bouncer-2/branches/master/shields_badge.svg)](https://semaphoreci.com/d-lobanov/dev-bouncer-2)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9e08f2a3ddfa4dab8b2945fd942208e1)](https://app.codacy.com/app/dmitry.lobanow/dev-bouncer?utm_source=github.com&utm_medium=referral&utm_content=d-lobanov/dev-bouncer&utm_campaign=Badge_Grade_Dashboard)
+[![codecov](https://codecov.io/gh/d-lobanov/dev-bouncer/branch/master/graph/badge.svg)](https://codecov.io/gh/d-lobanov/dev-bouncer)
 
 ## Description
 TBD.
