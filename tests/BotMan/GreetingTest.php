@@ -2,10 +2,11 @@
 
 namespace Tests\BotMan;
 
+use App\Http\Controllers\ConsoleController;
 use Tests\TestCase;
 
 /**
- * @covers \App\Http\Controllers\ConsoleController::unlock
+ * @see ConsoleController::greeting()
  */
 class GreetingTest extends TestCase
 {

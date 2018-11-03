@@ -2,8 +2,12 @@
 
 namespace Tests\BotMan;
 
+use App\Http\Controllers\ConversationsController;
 use Tests\TestCase;
 
+/**
+ * @see ConversationsController::menu()
+ */
 class MenuConversationTest extends TestCase
 {
     public function testReceivesNonInteractiveResponse(): void

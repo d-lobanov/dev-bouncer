@@ -3,10 +3,14 @@
 namespace Tests\BotMan;
 
 use App\Dev;
+use App\Http\Controllers\ConversationsController;
 use DevsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * @see ConversationsController::status()
+ */
 class StatusTest extends TestCase
 {
     use RefreshDatabase;
