@@ -40,7 +40,7 @@ class UserIntervalParser
     private function parseHours(string $userInput): ?int
     {
         if (!preg_match_all(self::REGEX, $userInput, $matches, PREG_SET_ORDER)) {
-            throw new ValidationException();
+            throw ValidationException::invalidFormat();
         }
 
         $hours = 0;
