@@ -17,7 +17,7 @@ docker exec -it bouncer.php ./bin/run_botman_tests.sh
 ```
 Coverage
 ```bash
-docker exec -it bouncer.php php vendor/bin/phpunit --coverage-clover build/coverage/xml
+docker exec -it bouncer.php vendor/bin/phpunit --coverage-clover=coverage.xml
 ```
 
 ## Docker useful commands

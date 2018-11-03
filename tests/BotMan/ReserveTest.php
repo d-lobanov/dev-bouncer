@@ -103,5 +103,4 @@ class ReserveTest extends TestCase
             ->receives('reserve dev777 1h')
             ->assertReply('#dev777 doesn\'t exist');
     }
-
 }
