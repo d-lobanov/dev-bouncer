@@ -9,7 +9,7 @@ use Tests\TestCase;
  */
 class GreetingTest extends TestCase
 {
-    public function testGreeting()
+    public function testGreeting(): void
     {
         $reply = 'Hi! If you need help just say **help**';
 

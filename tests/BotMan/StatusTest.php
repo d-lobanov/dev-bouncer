@@ -22,7 +22,7 @@ class StatusTest extends TestCase
         $this->seed(DevsSeeder::class);
     }
 
-    public function testDatabaseHasRecords()
+    public function testDatabaseHasRecords(): void
     {
         $this->assertEquals(3, Dev::count(), 'Something went wrong with seeding database.');
     }
@@ -38,7 +38,7 @@ class StatusTest extends TestCase
     /**
      * @depends testInitialStatus
      */
-    public function testStatusIfReserved()
+    public function testStatusIfReserved(): void
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'my super test');
 
@@ -51,7 +51,7 @@ class StatusTest extends TestCase
         $this->assertAllDevFree();
     }
 
-    private function assertAllDevFree()
+    private function assertAllDevFree(): void
     {
         $this->bot
             ->receives('status')

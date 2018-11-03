@@ -23,7 +23,7 @@ class ReserveTest extends TestCase
         $this->seed(DevsSeeder::class);
     }
 
-    public function testDatabaseHasRecords()
+    public function testDatabaseHasRecords(): void
     {
         $this->assertEquals(3, Dev::count(), 'Something went wrong with seeding database.');
     }
@@ -56,7 +56,7 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithoutComment
      */
-    public function testReserveWithComment()
+    public function testReserveWithComment(): void
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'test');
     }
@@ -64,7 +64,7 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithComment
      */
-    public function testReserveDevIfAlreadyReserved()
+    public function testReserveDevIfAlreadyReserved(): void
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'test_1');
 
@@ -82,7 +82,7 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithComment
      */
-    public function testReserveMultipleDevs()
+    public function testReserveMultipleDevs(): void
     {
         $this->reserveDev('john_doe', '111', 'dev1', 1, 'test_1');
         $this->reserveDev('john_doe', '111', 'dev2', 2, 'test_2');
@@ -97,7 +97,7 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithComment
      */
-    public function testReserveDevIfNotExistD()
+    public function testReserveDevIfNotExistD(): void
     {
         $this->bot
             ->receives('reserve dev777 1h')

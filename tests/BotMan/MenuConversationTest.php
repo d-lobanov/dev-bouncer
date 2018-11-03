@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class MenuConversationTest extends TestCase
 {
-    public function testReceivesNonInteractiveResponse()
+    public function testReceivesNonInteractiveResponse(): void
     {
         $this->bot
             ->receives('menu')
@@ -15,7 +15,7 @@ class MenuConversationTest extends TestCase
             ->assertQuestion('What do you like to do?');
     }
 
-    public function testReceivesCancel()
+    public function testReceivesCancel(): void
     {
         $this->bot
             ->receives('menu')
@@ -24,7 +24,7 @@ class MenuConversationTest extends TestCase
             ->assertReply('canceled');
     }
 
-    public function testReceivesUnknownItem()
+    public function testReceivesUnknownItem(): void
     {
         $this->bot
             ->receives('menu')

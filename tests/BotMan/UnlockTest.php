@@ -22,7 +22,7 @@ class UnlockTest extends TestCase
         $this->seed(DevsSeeder::class);
     }
 
-    public function testDatabaseHasRecords()
+    public function testDatabaseHasRecords(): void
     {
         $this->assertEquals(3, Dev::count(), 'Something went wrong with seeding database.');
     }
@@ -52,7 +52,7 @@ class UnlockTest extends TestCase
     /**
      * @depends testDatabaseHasRecords
      */
-    public function testUnlockIfDevIsFree()
+    public function testUnlockIfDevIsFree(): void
     {
         $this->bot
             ->setUser(['username' => 'john_doe', 'id' => '111'])
@@ -63,7 +63,7 @@ class UnlockTest extends TestCase
     /**
      * @depends testDatabaseHasRecords
      */
-    public function testUnlockIfDevNotExists()
+    public function testUnlockIfDevNotExists(): void
     {
         $this->bot
             ->setUser(['username' => 'john_doe', 'id' => '111'])
@@ -74,7 +74,7 @@ class UnlockTest extends TestCase
     /**
      * @depends testDatabaseHasRecords
      */
-    public function testUnlockIfDevBelongsToAnotherUser()
+    public function testUnlockIfDevBelongsToAnotherUser(): void
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'test');
 
