@@ -56,15 +56,15 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithoutComment
      */
-    public function testTryToReserveWithComment()
+    public function testReserveWithComment()
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'test');
     }
 
     /**
-     * @depends testTryToReserveWithComment
+     * @depends testReserveWithComment
      */
-    public function testTryToReserveSameDev()
+    public function testReserveDevIfAlreadyReserved()
     {
         $this->reserveDev('john_doe', '111', 'dev1', 2, 'test_1');
 
@@ -80,9 +80,9 @@ class ReserveTest extends TestCase
     }
 
     /**
-     * @depends testTryToReserveWithComment
+     * @depends testReserveWithComment
      */
-    public function testTryToReserveMultipleDevs()
+    public function testReserveMultipleDevs()
     {
         $this->reserveDev('john_doe', '111', 'dev1', 1, 'test_1');
         $this->reserveDev('john_doe', '111', 'dev2', 2, 'test_2');
@@ -92,6 +92,16 @@ class ReserveTest extends TestCase
             ->setUser(['username' => 'hacker_x', 'id' => '333'])
             ->receives('reserve dev1 2h')
             ->assertReply('#dev1 have already been reserved');
+    }
+
+    /**
+     * @depends testReserveWithComment
+     */
+    public function testReserveDevIfNotExistD()
+    {
+        $this->bot
+            ->receives('reserve dev777 1h')
+            ->assertReply('#dev777 doesn\'t exist');
     }
 
 }

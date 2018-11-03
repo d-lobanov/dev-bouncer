@@ -7,7 +7,7 @@ services:
     ports:
       - '8082:80'
     volumes:
-      - ./:/var/www/bot
+      - ../../:/var/www/bot
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
@@ -16,7 +16,7 @@ services:
     build: .
     container_name: bouncer.php
     volumes:
-      - ./:/var/www/bot
+      - ../../:/var/www/bot
     environment:
       XDEBUG_CONFIG: "remote_host=192.168.31.193 remote_port=9002 remote_enable=On"
       PHP_IDE_CONFIG: "serverName=bouncer.local"
