@@ -17,7 +17,7 @@ class CreateDevTest extends TestCase
     /**
      * @return void
      */
-    public function testBasicTest(): void
+    public function test(): void
     {
         $this->assertDatabaseMissing(Dev::TABLE, ['name' => 'dev1']);
         $this->artisan('dev-bouncer:create', ['name' => 'dev1']);

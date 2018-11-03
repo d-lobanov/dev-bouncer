@@ -17,7 +17,7 @@ class UnlockDevTest extends TestCase
     /**
      * @return void
      */
-    public function testBasicTest(): void
+    public function test(): void
     {
         $data = ['name' => 'dev1'];
 
@@ -29,3 +29,4 @@ class UnlockDevTest extends TestCase
         $this->assertFalse(Dev::whereName('dev1')->first()->isReserved());
     }
 }
+

@@ -17,7 +17,7 @@ class DeleteDevTest extends TestCase
     /**
      * @return void
      */
-    public function testBasicTest(): void
+    public function test(): void
     {
         $data = ['name' => 'dev1'];
 
