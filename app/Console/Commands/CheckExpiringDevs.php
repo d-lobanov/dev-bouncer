@@ -48,10 +48,6 @@ class CheckExpiringDevs extends Command
      */
     public function handle(): void
     {
-        $this->output->writeln('Start ' . date('h:i:s'));
-        $this->output->writeln('id: ' . config('botman.botframework.app_id'));
-        $this->output->writeln('key: ' . config('botman.botframework.app_key'));
-
         $this->notifyAndUnlockExpired();
         $this->notify(15);
         $this->notify(60);
@@ -89,7 +85,6 @@ class CheckExpiringDevs extends Command
                 $time = $this->formatter->formatDateDiff($dev->expired_at);
 
                 $message = "⚠️ #{$dev->name} will be expired in {$time}";
-                $this->output->writeln($message);
                 $this->skype->say($message, $dev->owner_skype_id);
 
                 $dev->notified();
