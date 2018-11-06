@@ -19,7 +19,7 @@ class RemoveBotNickname implements Received
     {
         $username = config('botman.config.bot_name');
 
-        $updatedText = str_replace($username, '', $message->getText());
+        $updatedText = preg_replace('/@?' . $username . '/', '', $message->getText());
         $message->setText($updatedText);
 
         return $next($message);

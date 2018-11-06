@@ -22,4 +22,11 @@ class GreetingTest extends TestCase
             ->receives('hello')
             ->assertReply($reply);
     }
+
+    public function testEmptyMessage(): void
+    {
+        $this->bot
+            ->receives('')
+            ->assertReply('Sorry, I did not understand these commands. Say **help** to see the list of commands.');
+    }
 }

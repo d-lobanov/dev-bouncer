@@ -29,10 +29,6 @@ $botman->hears('stop|cancel', ConsoleController::class . '@cancel')->stopsConver
 $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::class . '@cancel')->stopsConversation();
 
 $botman->fallback(function (BotMan $bot) {
-    $bot->reply('Sorry, I did not understand these commands.');
-});
-
-$botman->hears('.*', function (BotMan $bot) {
     $message = sprintf(
         'M: "%s", U: %s (%s)',
         $bot->getMessage()->getText(),
@@ -40,5 +36,7 @@ $botman->hears('.*', function (BotMan $bot) {
         $bot->getUser()->getUsername()
     );
 
-    app('log')->channel('incoming_messages')->info($message);
+    app('log')->channel('unknown_messages')->info($message);
+
+    $bot->reply('Sorry, I did not understand these commands. Say **help** to see the list of commands.');
 });

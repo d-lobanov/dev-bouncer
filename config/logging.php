@@ -66,9 +66,9 @@ return [
             'level' => 'debug',
         ],
 
-        'incoming_messages' => [
+        'unknown_messages' => [
             'driver' => 'single',
-            'path' => storage_path('logs/incoming_messages.log'),
+            'path' => storage_path('logs/unknown_messages.log'),
             'level' => 'info',
         ],
     ],
