@@ -31,3 +31,14 @@ $botman->hears('.*' . ButtonFactory::CANCEL_VALUE . '.*', ConsoleController::cla
 $botman->fallback(function (BotMan $bot) {
     $bot->reply('Sorry, I did not understand these commands.');
 });
+
+$botman->hears('.*', function (BotMan $bot) {
+    $message = sprintf(
+        'M: "%s", U: %s (%s)',
+        $bot->getMessage()->getText(),
+        $bot->getUser()->getId(),
+        $bot->getUser()->getUsername()
+    );
+
+    app('log')->channel('incoming_messages')->info($message);
+});

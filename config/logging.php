@@ -65,6 +65,12 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'incoming_messages' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/incoming_messages.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
