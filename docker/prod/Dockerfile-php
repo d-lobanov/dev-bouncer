@@ -21,7 +21,7 @@ RUN crontab /etc/cron.d/scheduler-cron
 RUN touch /var/log/cron.log
 # End
 
-ENV APP_ENV = prod
+ENV APP_ENV prod
 
 COPY . /var/www/bot
 COPY .env.example .env
