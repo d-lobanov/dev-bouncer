@@ -40,7 +40,7 @@ class UnlockTest extends TestCase
         $this->bot
             ->setUser(['username' => 'john_doe', 'id' => '111'])
             ->receives('unlock dev1')
-            ->assertReply('(dropthemic) #dev1 has been unlocked');
+            ->assertReply('#dev1 has been unlocked');
 
         $this->assertDatabaseHas(Dev::TABLE, [
             'name' => 'dev1',

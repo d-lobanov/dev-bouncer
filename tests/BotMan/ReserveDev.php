@@ -3,6 +3,7 @@
 namespace Tests\BotMan;
 
 use App\Dev;
+use App\Enum\Emoji;
 use Carbon\Carbon;
 
 trait ReserveDev
@@ -22,7 +23,7 @@ trait ReserveDev
         $this->bot
             ->setUser(['username' => $username, 'id' => $userId])
             ->receives("reserve $name {$hours}h $comment")
-            ->assertReply("(key) #$name has been reserved");
+            ->assertReply(Emoji::DEV_RESERVED . " #$name has been reserved");
 
         $this->assertDatabaseHas(Dev::TABLE, [
             'name' => $name,

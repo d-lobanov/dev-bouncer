@@ -3,6 +3,7 @@
 namespace App\Conversations;
 
 use App\Dev;
+use App\Enum\Emoji;
 use App\Facades\DevBouncer;
 use App\Services\ButtonFactory;
 use BotMan\BotMan\Messages\Conversations\Conversation;
@@ -41,7 +42,7 @@ class UnlockDevConversation extends Conversation
 
             DevBouncer::unlockByNameAndOwnerId($name, $userId);
 
-            $this->say("(dropthemic) #$name has been unlocked");
+            $this->say("#$name has been unlocked");
         });
     }
 

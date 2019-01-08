@@ -3,6 +3,7 @@
 namespace Tests\BotMan;
 
 use App\Dev;
+use App\Enum\Emoji;
 use Carbon\Carbon;
 use DevsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,7 +43,7 @@ class ReserveTest extends TestCase
         $this->bot
             ->setUser(['username' => 'john_doe', 'id' => '111'])
             ->receives('reserve dev1 2h')
-            ->assertReply('(key) #dev1 has been reserved');
+            ->assertReply(Emoji::DEV_RESERVED . ' #dev1 has been reserved');
 
         $this->assertDatabaseHas(Dev::TABLE, [
             'name' => 'dev1',

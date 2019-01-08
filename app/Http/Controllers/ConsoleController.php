@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\Emoji;
 use App\Facades\DevBouncer;
 use App\Facades\UserInterval;
 use App\Services\SkypeMessageFormatter;
@@ -21,7 +22,7 @@ class ConsoleController extends Controller
 
         DevBouncer::reserveByName($name, $bot->getUser(), $expiredAt, trim($comment ?? ''));
 
-        $bot->reply("(key) #$name has been reserved");
+        $bot->reply(Emoji::DEV_RESERVED . " #$name has been reserved");
     }
 
     /**
@@ -31,7 +32,7 @@ class ConsoleController extends Controller
     public function unlock(BotMan $bot, string $name): void
     {
         DevBouncer::unlockByNameAndOwnerId($name, $bot->getUser()->getId());
-        $bot->reply("(dropthemic) #$name has been unlocked");
+        $bot->reply("#$name has been unlocked");
     }
 
 

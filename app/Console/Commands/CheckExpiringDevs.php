@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Dev;
+use App\Enum\Emoji;
 use App\Services\SkypeBotMan;
 use App\Services\SkypeMessageFormatter;
 use Illuminate\Console\Command;
@@ -61,7 +62,7 @@ class CheckExpiringDevs extends Command
         $devs = Dev::where('expired_at', '<', now())->get();
 
         $devs->each(function (Dev $dev) {
-            $message = "(bomb) {$dev->owner_skype_username} #{$dev->name} has been expired and unlocked";
+            $message = Emoji::DEV_EXPIRED . " {$dev->owner_skype_username} #{$dev->name} has been expired and unlocked";
             $this->skype->say($message, $dev->owner_skype_id);
 
             $dev->unlock();
@@ -84,7 +85,7 @@ class CheckExpiringDevs extends Command
             if ($diffMinutes > $minutes) {
                 $time = $this->formatter->formatDateDiff($dev->expired_at);
 
-                $message = "⚠️ #{$dev->name} will be expired in {$time}";
+                $message = Emoji::WARNING . "#{$dev->name} will be expired in {$time}";
                 $this->skype->say($message, $dev->owner_skype_id);
 
                 $dev->notified();

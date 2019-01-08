@@ -3,6 +3,7 @@
 namespace App\Conversations;
 
 use App\Dev;
+use App\Enum\Emoji;
 use App\Facades\DevBouncer;
 use App\Facades\UserInterval;
 use App\Services\ButtonFactory;
@@ -93,7 +94,7 @@ class ReserveDevConversation extends Conversation
         return $this->ask('Comment?', function (Answer $answer) {
             DevBouncer::reserveByName($this->devName, $this->bot->getUser(), $this->expiredAt, $answer->getText());
 
-            $this->say("(key) #$this->devName has been reserved");
+            $this->say(Emoji::DEV_RESERVED . " #$this->devName has been reserved");
         });
     }
 
