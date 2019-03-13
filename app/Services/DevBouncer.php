@@ -7,9 +7,11 @@ use App\Exceptions\DevIsReservedException;
 use App\Exceptions\DevIsUnlockedException;
 use App\Exceptions\DevNotFoundException;
 use App\Exceptions\DevOwnException;
+use App\Exceptions\InvalidDevNameException;
 use BotMan\BotMan\Interfaces\UserInterface;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class DevBouncer
 {
@@ -47,11 +49,11 @@ class DevBouncer
      *
      * @return bool
      *
-     * @throws DevIsReservedException|DevNotFoundException
+     * @throws DevIsReservedException|DevNotFoundException|InvalidDevNameException
      */
     public function reserveByName(string $name, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
-        $name = starts_with($name, 'dev') ? $name : 'dev' . $name;
+        $name = DevBouncer::validateAndConvertName($name);
 
         /** @var Dev $dev */
         $dev = Dev::whereName($name)->first() ?? Dev::create(['name' => $name]);
@@ -77,5 +79,21 @@ class DevBouncer
         $time = Carbon::createFromTimestamp($expiredAt);
 
         return $dev->reserve($owner->getId(), $username, $time, $comment);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     * @throws InvalidDevNameException
+     */
+    private static function validateAndConvertName(string $name)
+    {
+        $validation = Validator::make(['name' => $name], ['name' => ['regex:/^(dev)?\d+$/', 'max:255']]);
+
+        if ($validation->fails()) {
+            throw new InvalidDevNameException($name);
+        }
+
+        return starts_with($name, 'dev') ? $name : 'dev' . $name;
     }
 }

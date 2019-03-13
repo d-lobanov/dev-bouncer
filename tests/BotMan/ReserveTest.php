@@ -132,4 +132,14 @@ class ReserveTest extends TestCase
 
         Carbon::setTestNow();
     }
+
+    /**
+     * @depends testReserveWithComment
+     */
+    public function testReserveWithInvalidName(): void
+    {
+        $this->bot
+            ->receives('reserve test 1h')
+            ->assertReply('\'test\' is not valid name for dev. Try something like – dev123');
+    }
 }
