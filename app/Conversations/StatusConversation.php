@@ -16,6 +16,6 @@ class StatusConversation extends Conversation
     {
         $messages = Dev::all()->map([SkypeFormatter::class, 'devStatus']);
 
-        $this->say($messages->implode(SkypeMessageFormatter::SKYPE_NEW_LINE));
+        $this->say($messages->isNotEmpty() ? $messages->implode(SkypeMessageFormatter::SKYPE_NEW_LINE) : 'No devs reserved');
     }
 }

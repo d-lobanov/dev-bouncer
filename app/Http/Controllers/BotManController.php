@@ -26,5 +26,4 @@ class BotManController extends Controller
     {
         return view('tinker');
     }
-
 }

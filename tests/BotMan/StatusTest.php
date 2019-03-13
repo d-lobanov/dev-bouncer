@@ -58,4 +58,17 @@ class StatusTest extends TestCase
             ->receives('status')
             ->assertReply("**dev2** – free\n\n**dev3** – free");
     }
+
+    public function testUnlockAllDevs(): void
+    {
+        $this->reserveDev('john_doe', '111', 'dev1', 1, '');
+        $this->reserveDev('john_doe', '111', 'dev2', 1, '');
+        $this->reserveDev('john_doe', '111', 'dev3', 1, '');
+
+        $this->bot->receives('unlock dev1');
+        $this->bot->receives('unlock dev2');
+        $this->bot->receives('unlock dev3');
+
+        $this->bot->receives('status')->assertReply('No devs reserved');
+    }
 }
