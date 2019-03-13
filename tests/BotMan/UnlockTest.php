@@ -42,13 +42,8 @@ class UnlockTest extends TestCase
             ->receives('unlock dev1')
             ->assertReply('#dev1 has been unlocked');
 
-        $this->assertDatabaseHas(Dev::TABLE, [
+        $this->assertDatabaseMissing(Dev::TABLE, [
             'name' => 'dev1',
-            'owner_skype_id' => null,
-            'owner_skype_username' => null,
-            'expired_at' => null,
-            'notified_at' => null,
-            'comment' => null,
         ]);
     }
 

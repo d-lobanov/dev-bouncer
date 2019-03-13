@@ -101,10 +101,35 @@ class ReserveTest extends TestCase
     /**
      * @depends testReserveWithComment
      */
-    public function testReserveDevIfNotExistD(): void
+    public function testReserveDevIfNotExist(): void
     {
         $this->bot
             ->receives('reserve dev777 1h')
-            ->assertReply('#dev777 doesn\'t exist');
+            ->assertReply(Emoji::DEV_RESERVED . ' #dev777 has been reserved');
+    }
+
+    /**
+     * @depends testReserveWithComment
+     */
+    public function testReserveDevIfOnlyNumberProvided(): void
+    {
+        $now = now();
+        Carbon::setTestNow($now->copy());
+
+        $this->bot
+            ->setUser(['username' => 'john_doe', 'id' => 111])
+            ->receives('reserve 7 1h')
+            ->assertReply(Emoji::DEV_RESERVED . ' #7 has been reserved');
+
+        $this->assertDatabaseHas(Dev::TABLE, [
+            'name' => 'dev7',
+            'owner_skype_id' => '111',
+            'owner_skype_username' => 'john_doe',
+            'expired_at' => $now->copy()->addHours(1),
+            'notified_at' => $now,
+            'comment' => '',
+        ]);
+
+        Carbon::setTestNow();
     }
 }

@@ -36,7 +36,9 @@ class StatusTest extends TestCase
      */
     public function testInitialStatus(): void
     {
-        $this->assertAllDevFree();
+        $this->bot
+            ->receives('status')
+            ->assertReply("**dev1** – free\n\n**dev2** – free\n\n**dev3** – free");
     }
 
     /**
@@ -52,13 +54,8 @@ class StatusTest extends TestCase
 
         $this->bot->receives('unlock dev1');
 
-        $this->assertAllDevFree();
-    }
-
-    private function assertAllDevFree(): void
-    {
         $this->bot
             ->receives('status')
-            ->assertReply("**dev1** – free\n\n**dev2** – free\n\n**dev3** – free");
+            ->assertReply("**dev2** – free\n\n**dev3** – free");
     }
 }

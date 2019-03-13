@@ -9,6 +9,7 @@ use App\Exceptions\DevNotFoundException;
 use App\Exceptions\DevOwnException;
 use BotMan\BotMan\Interfaces\UserInterface;
 use Carbon\Carbon;
+use Exception;
 
 class DevBouncer
 {
@@ -16,7 +17,7 @@ class DevBouncer
      * @param string $name
      * @param string $ownerId
      * @return bool
-     * @throws DevNotFoundException|DevOwnException|DevIsUnlockedException
+     * @throws DevNotFoundException|DevOwnException|DevIsUnlockedException|Exception
      */
     public function unlockByNameAndOwnerId(string $name, string $ownerId): bool
     {
@@ -35,7 +36,7 @@ class DevBouncer
             throw new DevOwnException($name);
         }
 
-        return $dev->unlock();
+        return $dev->delete();
     }
 
     /**
@@ -50,12 +51,12 @@ class DevBouncer
      */
     public function reserveByName(string $name, UserInterface $owner, int $expiredAt, ?string $comment): bool
     {
-        /** @var Dev $dev */
-        if ($dev = Dev::whereName($name)->first()) {
-            return $this->reserve($dev, $owner, $expiredAt, $comment);
-        }
+        $name = starts_with($name, 'dev') ? $name : 'dev' . $name;
 
-        throw new DevNotFoundException($name);
+        /** @var Dev $dev */
+        $dev = Dev::whereName($name)->first() ?? Dev::create(['name' => $name]);
+
+        return $this->reserve($dev, $owner, $expiredAt, $comment);
     }
 
     /**
